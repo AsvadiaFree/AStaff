@@ -1,0 +1,13 @@
+name: AStaff
+main: fr.asvadia.astaff.Main
+version: 1.0
+commands:
+  asanction:
+    aliases:
+      - "as"
+      - "sanction"
+      - "ss"
+  astaff:
+    aliases:
+      - "staff"
+      - "mod"
