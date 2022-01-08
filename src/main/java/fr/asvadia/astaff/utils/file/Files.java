@@ -2,7 +2,8 @@ package fr.asvadia.astaff.utils.file;
 
 public enum Files {
     Config("config"),
-    Staff("staff");
+    Staff("staff"),
+    Lang("lang");
 
     private final String name;
 

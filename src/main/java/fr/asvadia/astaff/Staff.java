@@ -9,15 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-
 public class Staff {
-    private static final HashMap<String, SimpleItem> items = new HashMap<>();
-
-    public static void activeModule(StaffModules module, Player player) {
-
-    }
-
     public static void changeStaff(boolean status, Player player) {
         YamlConfiguration staff = FileManager.getValues().get(Files.Staff);
         staff.set("players." + player.getName().toLowerCase() + ".active", status);
@@ -39,7 +31,11 @@ public class Staff {
                     SimpleItem item = new SimpleItem(Material.matchMaterial(config.getString("Staff.Stuff." + s + ".Material")));
                     item.setName(config.getString("Staff.Stuff." + s + ".Name"));
                     item.setLore(config.getStringList("Staff.Stuff." + s + ".Lore"));
-                    item.onClick((player1, simpleItem, itemStacks) -> activeModule(StaffModules.getByModule(s), player1));
+                    item.onClick((player1, simpleItem, event) -> {
+                        StaffModules staffModule = StaffModules.getByName(s);
+                        if (staffModule != null)
+                            staffModule.getModule().apply(player1, simpleItem, event);
+                    });
                     player.getInventory().setItem(config.getInt("Staff.Stuff." + s + ".Slot"), item.toItemStack());
                 }
             });
