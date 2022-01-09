@@ -1,4 +1,4 @@
-package fr.asvadia.astaff;
+package fr.asvadia.astaff.utils;
 
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
@@ -9,7 +9,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Staff {
+    public static List<Player> staffed = new ArrayList<>();
+
     public static void changeStaff(boolean status, Player player) {
         YamlConfiguration staff = FileManager.getValues().get(Files.Staff);
         staff.set("players." + player.getName().toLowerCase() + ".active", status);
@@ -18,7 +23,7 @@ public class Staff {
             staff.set("players." + player.getName().toLowerCase() + ".oldInventory", player.getInventory().getContents());
             FileManager.save(Files.Staff);
 
-            Main.getInstance().staffMembers.add(player);
+            staffed.add(player);
 
             player.getInventory().clear();
             player.getInventory().setArmorContents(new ItemStack[4]);

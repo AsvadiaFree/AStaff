@@ -1,4 +1,44 @@
 Staff:
-  Permission: ""
+  Permission: "astaff"
   Stuff:
-    
+    Vanish:
+      Permission: "astaff.vanish"
+      Material: "GOLDEN_HOE"
+      Name: "Vanish"
+      Lore:
+        - "This is a Vanish wand"
+      Slot: 5
+    RandomTp:
+      Permission: "astaff.randomtp"
+      Material: "WATCH"
+      Name: "Random Tp"
+      Lore:
+        - "This is a Random Tp watch"
+      Slot: 4
+    PlayerViewer:
+      Permission: "astaff.playerviewer"
+      Material: "BOOK"
+      Name: "Player Viewer"
+      Lore:
+        - "This is a book to inspect the player"
+      Slot: 3
+    Freeze:
+      Permission: "astaff.freeze"
+      Material: "PACKED_ICE"
+      Name: "Freze"
+      Lore:
+        - "This is a ice to freeze player"
+      Slot: 2
+  PlayerViewer:
+    GUI:
+      PlayerSkull:
+        Slot: 0
+      TeleportPlayer:
+        Material: "ENDERPEARL"
+        Slot: 1
+      Sanction:
+        Material: "DIAMOND_AXE"
+        Slot: 2
+      TopLuck:
+        Material: "DIAMOND_PICKAXE"
+        Slot: 3

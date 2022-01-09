@@ -1,7 +1,7 @@
 package fr.asvadia.astaff.modules;
 
 import fr.asvadia.astaff.Main;
-import fr.asvadia.astaff.StaffModules;
+import fr.asvadia.astaff.utils.StaffModules;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.SimpleItem;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Vanish extends Module {
-    private final List<Player> vanished = new ArrayList<>();
+    public static final List<Player> vanished = new ArrayList<>();
     private final StaffModules module = StaffModules.getByModule(this);
 
     @Override
@@ -30,7 +30,7 @@ public class Vanish extends Module {
             item.removeEnchantment(Enchantment.DURABILITY);
 
             vanished.remove(player);
-            player.sendMessage(message.getString("Staff.Vanish.desactive"));
+            player.sendMessage(message.getString("Staff.Vanish.Desactive"));
         } else {
             Bukkit.getOnlinePlayers().forEach(player1 -> player1.hidePlayer(Main.getInstance(), player));
             vanished.forEach(player1 -> {
@@ -41,7 +41,7 @@ public class Vanish extends Module {
             item.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
 
             vanished.add(player);
-            player.sendMessage(message.getString("Staff.Vanish.active"));
+            player.sendMessage(message.getString("Staff.Vanish.Active"));
         }
         assert module != null;
         player.getInventory().setItem(config.getInt("Staff.Stuff." + module.getName() + ".Slot"), item.toItemStack());

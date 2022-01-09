@@ -1,10 +1,12 @@
-package fr.asvadia.astaff;
+package fr.asvadia.astaff.utils;
 
-import fr.asvadia.astaff.modules.Module;
-import fr.asvadia.astaff.modules.Vanish;
+import fr.asvadia.astaff.modules.*;
 
 public enum StaffModules {
-    VANISH("vanish", new Vanish());
+    VANISH("Vanish", new Vanish()),
+    RANDOM_TP("RandomTp", new RandomTp()),
+    PLAYER_VIEWER("PlayerViewer", new PlayerViewer()),
+    FREEZE("Freeze", new Freeze()),;
 
     private final String name;
     private final Module module;

@@ -1,6 +1,6 @@
 package fr.asvadia.astaff.commands;
 
-import fr.asvadia.astaff.Staff;
+import fr.asvadia.astaff.utils.Staff;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import org.bukkit.command.Command;

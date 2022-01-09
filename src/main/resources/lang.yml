@@ -1,4 +1,68 @@
 Staff:
   Vanish:
-    active: "Le vanish est activé !"
-    desactive: "Le vanish est désactivé !"
+    Active: "Le vanish est activé !"
+    Desactive: "Le vanish est désactivé !"
+  RandomTp:
+    # Variables:
+    # %player% : Name of player where u teleport
+    PlayerFound: "Vous vous êtes téléporter sur le joueur %player% !"
+    PlayerNotFound: "Aucun joueur n'a été trouvé !"
+  PlayerViewer:
+    # Variables:
+    # %player% : Name of player who is inspect
+    InspectOf: "Vous inspectez le joueur %player% !"
+    GUI:
+      PlayerSkull:
+        # Variables:
+        # %player% : Name of player who is inspect
+        Name: "%player%"
+        # Variables:
+        # %tlGlobalScore% : The global score of player on TopLuck
+        # %tlAsvadiumCount% : Number of Asvadium the player has mine
+        # %tlTopazeCount% : Number of Topaze the player has mine
+        # %tlRubisCount% : Number of Rubis the player has mine
+        # %tlSaphirCount% : Number of Saphir the player has mine
+        # %tlAsvadiumScore% : The TopLuck score of player in the ore
+        # %tlTopazeScore% : The TopLuck score of player in the ore
+        # %tlRubisScore% : The TopLuck score of player in the ore
+        # %tlSaphirScore% : The TopLuck score of player in the ore
+        # All PlaceholderApi variables
+        Lore:
+          - ""
+      TeleportPlayer:
+        # Variables:
+        # %player% : Name of player who is inspect
+        Name: "Se téléporter à %player%"
+        Lore:
+          - ""
+        # Variables:
+        # %player% : Name of player who is inspect
+        TeleportToPlayer: "Vous venez de vous téléporter sur %player% !"
+      Sanction:
+        # Variables:
+        # %player% : Name of player who is inspect
+        Name: "Sanctionner %player%"
+        Lore:
+          - ""
+      TopLuck:
+        # Variables:
+        # %player% : Name of player who is inspect
+        Name: "TopLuck de %player%"
+        Lore:
+          - ""
+  Freeze:
+    # Variables:
+    # %player% : Player who get freeze
+    PlayerFreeze: "Vous venez de freeze %player% !"
+    # Variables:
+    # %player% : Player who get unfreeze
+    PlayerUnfreeze: "Vous venez de defreeze %player% !"
+    # Variables:
+    # %player% : Player who freeze player
+    FreezeByPlayer: "Vous venez d'être freeze par %player% !"
+    # Variables:
+    # %player% : Player who unfreeze player
+    UnfreezeByPlayer: "Vous venez d'être defreeze par %player% !"
+    WrongAction: "Vous ne pouvez faire cela alors que vous êtez freeze !"
+
+
