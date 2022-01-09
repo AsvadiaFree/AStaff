@@ -10,13 +10,15 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Vanish extends Module {
     public static final List<Player> vanished = new ArrayList<>();
-    private final StaffModules module = StaffModules.getByModule(this);
+    private StaffModules module;
 
     @Override
     public void apply(Player player, SimpleItem item) {
@@ -44,12 +46,18 @@ public class Vanish extends Module {
             vanished.add(player);
             player.sendMessage(message.getString("Staff.Vanish.Active"));
         }
-        assert module != null;
-        player.getInventory().setItem(config.getInt("Staff.Stuff." + module.getName() + ".Slot"), item.toItemStack());
+        if (module == null)
+            module = StaffModules.VANISH;
+        if (item != null)
+            player.getInventory().setItem(config.getInt("Staff.Stuff." + module.getName() + ".Slot"), item.toItemStack());
     }
 
     @Override
     public void apply(Player player, SimpleItem item, Event event) {
-
+        if (event instanceof PlayerInteractEvent) {
+            PlayerInteractEvent e = (PlayerInteractEvent) event;
+            if (e.getAction() != Action.LEFT_CLICK_BLOCK && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+                this.apply(player, item);
+        }
     }
 }

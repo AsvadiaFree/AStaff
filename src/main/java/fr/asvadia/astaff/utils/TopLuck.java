@@ -76,7 +76,10 @@ public class TopLuck {
         playerScore.putIfAbsent(player.getUniqueId(), 0.0);
         for (TopLuckOres topLuckOres : TopLuckOres.values()) {
             playerOreCount.putIfAbsent(topLuckOres, new HashMap<>());
-            playerOreCount.get(topLuckOres).putIfAbsent(player.getUniqueId(), 0L);
+            long n = 0;
+            if (topLuckOres == TopLuckOres.ALL)
+                n = 1L;
+            playerOreCount.get(topLuckOres).putIfAbsent(player.getUniqueId(), n);
             playerOreScore.putIfAbsent(topLuckOres, new HashMap<>());
             playerOreScore.get(topLuckOres).putIfAbsent(player.getUniqueId(), 0.0);
         }

@@ -1,6 +1,7 @@
 package fr.asvadia.astaff.utils;
 
 import fr.asvadia.astaff.modules.*;
+import fr.asvadia.astaff.modules.Module;
 
 public enum StaffModules {
     VANISH("Vanish", new Vanish()),
@@ -22,19 +23,5 @@ public enum StaffModules {
 
     public String getName() {
         return name;
-    }
-
-    public static StaffModules getByName(String name) {
-        for (StaffModules staffModule : StaffModules.values())
-            if (staffModule.getName().equals(name))
-                return staffModule;
-        return null;
-    }
-
-    public static StaffModules getByModule(Module module) {
-        for (StaffModules staffModule : StaffModules.values())
-            if (staffModule.getModule().equals(module))
-                return staffModule;
-        return null;
     }
 }

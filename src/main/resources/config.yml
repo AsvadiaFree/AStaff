@@ -10,7 +10,7 @@ Staff:
       Slot: 5
     RandomTp:
       Permission: "astaff.randomtp"
-      Material: "WATCH"
+      Material: "CLOCK"
       Name: "Random Tp"
       Lore:
         - "This is a Random Tp watch"
@@ -25,7 +25,7 @@ Staff:
     Freeze:
       Permission: "astaff.freeze"
       Material: "PACKED_ICE"
-      Name: "Freze"
+      Name: "Freeze"
       Lore:
         - "This is a ice to freeze player"
       Slot: 2
