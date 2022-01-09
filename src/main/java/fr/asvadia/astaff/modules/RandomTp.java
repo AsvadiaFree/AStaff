@@ -16,6 +16,11 @@ public class RandomTp extends Module {
     YamlConfiguration lang = FileManager.getValues().get(Files.Lang);
 
     @Override
+    public void apply(Player player, SimpleItem item) {
+
+    }
+
+    @Override
     public void apply(Player player, SimpleItem item, Event event) {
         Optional<? extends Player> op = Bukkit.getOnlinePlayers().stream()
                 .filter(player1 -> !player1.equals(player))

@@ -15,7 +15,7 @@ import org.bukkit.event.player.*;
 public class StaffListeners implements Listener {
     @EventHandler
     private void onCommand(PlayerCommandPreprocessEvent event) {
-        if (Freeze.freezed.contains(event.getPlayer())) {
+        if (Freeze.frozen.contains(event.getPlayer())) {
             event.setCancelled(true);
             event.getPlayer().sendMessage(FileManager.getValues().get(Files.Lang).getString("Staff.Freeze.WrongAction"));
         }
@@ -23,7 +23,7 @@ public class StaffListeners implements Listener {
 
     @EventHandler
     private void onInteract(PlayerInteractEvent event) {
-        if (Freeze.freezed.contains(event.getPlayer())) {
+        if (Freeze.frozen.contains(event.getPlayer())) {
             event.setCancelled(true);
             event.getPlayer().sendMessage(FileManager.getValues().get(Files.Lang).getString("Staff.Freeze.WrongAction"));
         }
@@ -32,13 +32,13 @@ public class StaffListeners implements Listener {
     @EventHandler
     private void onDamage(EntityDamageByEntityEvent event) {
         if(event.getDamager() instanceof Player && event.getEntity() instanceof Player)
-            if(Freeze.freezed.contains((Player)event.getDamager()) || Freeze.freezed.contains((Player)event.getEntity()))
+            if(Freeze.frozen.contains((Player)event.getDamager()) || Freeze.frozen.contains((Player)event.getEntity()))
                 event.setCancelled(true);
     }
 
     @EventHandler
     private void onMove(PlayerMoveEvent event) {
-        if (Freeze.freezed.contains(event.getPlayer()) && event.getFrom().distance(event.getTo()) != 0.0)
+        if (Freeze.frozen.contains(event.getPlayer()) && event.getFrom().distance(event.getTo()) != 0.0)
             event.setCancelled(true);
     }
 

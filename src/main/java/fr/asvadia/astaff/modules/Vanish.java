@@ -19,15 +19,15 @@ public class Vanish extends Module {
     private final StaffModules module = StaffModules.getByModule(this);
 
     @Override
-    public void apply(Player player, SimpleItem item, Event event) {
-        boolean isVanish = item.toItemStack().getEnchantments().containsKey(Enchantment.DURABILITY);
+    public void apply(Player player, SimpleItem item) {
         YamlConfiguration config = FileManager.getValues().get(Files.Config);
         YamlConfiguration message = FileManager.getValues().get(Files.Lang);
-        if (isVanish) {
+        if (vanished.contains(player)) {
             Bukkit.getOnlinePlayers().forEach(player1 -> player1.showPlayer(Main.getInstance(), player));
             vanished.forEach(player1 -> player.hidePlayer(Main.getInstance(), player1));
 
-            item.removeEnchantment(Enchantment.DURABILITY);
+            if (item != null)
+                item.removeEnchantment(Enchantment.DURABILITY);
 
             vanished.remove(player);
             player.sendMessage(message.getString("Staff.Vanish.Desactive"));
@@ -38,12 +38,18 @@ public class Vanish extends Module {
                 player.showPlayer(Main.getInstance(), player1);
             });
 
-            item.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+            if (item != null)
+                item.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
 
             vanished.add(player);
             player.sendMessage(message.getString("Staff.Vanish.Active"));
         }
         assert module != null;
         player.getInventory().setItem(config.getInt("Staff.Stuff." + module.getName() + ".Slot"), item.toItemStack());
+    }
+
+    @Override
+    public void apply(Player player, SimpleItem item, Event event) {
+
     }
 }

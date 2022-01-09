@@ -42,3 +42,22 @@ Staff:
       TopLuck:
         Material: "DIAMOND_PICKAXE"
         Slot: 3
+TopLuck:
+  Permission: "atopluck"
+Sanction:
+  Permission: "asanction"
+  GUI:
+    # Every category :
+    Chat:
+      Permission: "asanction.chat"
+      Material: "PAPER"
+      Reasons:
+        # Every reason :
+        Spam:
+          Permission: "asanction.chat.spam"
+          Slot: 0
+          Material: "PAPER"
+          Sanction:
+            Type: "TEMPMUTE"
+            Time: 1D
+            Reason: "Spam !"

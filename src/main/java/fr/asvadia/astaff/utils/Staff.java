@@ -1,5 +1,6 @@
 package fr.asvadia.astaff.utils;
 
+import fr.asvadia.astaff.modules.Vanish;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.SimpleItem;
@@ -28,6 +29,7 @@ public class Staff {
             player.getInventory().clear();
             player.getInventory().setArmorContents(new ItemStack[4]);
             player.setGameMode(GameMode.CREATIVE);
+            StaffModules.VANISH.getModule().apply(player, null);
 
             YamlConfiguration config = FileManager.getValues().get(Files.Config);
 
@@ -45,7 +47,14 @@ public class Staff {
                 }
             });
         } else {
+            player.getInventory().clear();
+            player.getInventory().setArmorContents(new ItemStack[4]);
+            player.setGameMode(GameMode.SURVIVAL);
+            player.getInventory().setContents(staff.getList("players." + player.getName().toLowerCase() + ".oldInventory").toArray(new ItemStack[0]));
 
+            staffed.remove(player);
+            Vanish.vanished.add(player);
+            StaffModules.VANISH.getModule().apply(player, null);
         }
     }
 }

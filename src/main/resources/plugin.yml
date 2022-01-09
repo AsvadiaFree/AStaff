@@ -11,3 +11,7 @@ commands:
     aliases:
       - "staff"
       - "mod"
+  atopluck:
+    aliases:
+      - "topluck"
+      - "tluck"

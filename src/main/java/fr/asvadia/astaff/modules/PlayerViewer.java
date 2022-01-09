@@ -1,6 +1,8 @@
 package fr.asvadia.astaff.modules;
 
 import fr.asvadia.api.bukkit.menu.inventory.AInventoryGUI;
+import fr.asvadia.astaff.utils.Sanction;
+import fr.asvadia.astaff.utils.TopLuck;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.ItemCreator;
@@ -18,6 +20,11 @@ import java.util.List;
 
 public class PlayerViewer extends Module {
     @Override
+    public void apply(Player player, SimpleItem item) {
+
+    }
+
+    @Override
     public void apply(Player player, SimpleItem item, Event event) {
         if (event instanceof PlayerInteractEntityEvent) {
             PlayerInteractEntityEvent e = (PlayerInteractEntityEvent) event;
@@ -29,8 +36,9 @@ public class PlayerViewer extends Module {
         }
     }
 
-    private void openPlayerGui(Player inspector, Player target) {
+    public static void openPlayerGui(Player inspector, Player target) {
         // Init
+        TopLuck.updateTopLuck();
         YamlConfiguration config = FileManager.getValues().get(Files.Config);
         YamlConfiguration lang = FileManager.getValues().get(Files.Lang);
         AInventoryGUI.Builder inv = new AInventoryGUI.Builder();
@@ -69,26 +77,30 @@ public class PlayerViewer extends Module {
         });
 
         // Create Sanction Item
-        ItemCreator sanction = new ItemCreator(Material.matchMaterial(config.getString("Staff.PlayerViewer.GUI.Sanction.Material")))
-                .setName(lang.getString("Staff.PlayerViewer.GUI.Sanction.Name").replaceAll("%player%", target.getName()))
-                .setLore(lang.getStringList("Staff.PlayerViewer.GUI.Sanction.Lore"));
-        slot = config.getInt("Staff.PlayerViewer.GUI.Sanction.Slot");
-        inv.item(slot, teleportPlayer.toItemStack());
-        inv.clickButton(slot, (player, aInventoryGUI, clickType) -> {
-            inspector.closeInventory();
-            // Open Sanction inventory
-        });
+        if (inspector.hasPermission(config.getString("Sanction.Permission"))) {
+            ItemCreator sanction = new ItemCreator(Material.matchMaterial(config.getString("Staff.PlayerViewer.GUI.Sanction.Material")))
+                    .setName(lang.getString("Staff.PlayerViewer.GUI.Sanction.Name").replaceAll("%player%", target.getName()))
+                    .setLore(lang.getStringList("Staff.PlayerViewer.GUI.Sanction.Lore"));
+            slot = config.getInt("Staff.PlayerViewer.GUI.Sanction.Slot");
+            inv.item(slot, sanction.toItemStack());
+            inv.clickButton(slot, (player, aInventoryGUI, clickType) -> {
+                inspector.closeInventory();
+                Sanction.openSanctionGUI(player, target);
+            });
+        }
 
         //Create TopLuck item
-        ItemCreator topLuck = new ItemCreator(Material.matchMaterial(config.getString("Staff.PlayerViewer.GUI.TopLuck.Material")))
-                .setName(lang.getString("Staff.PlayerViewer.GUI.TopLuck.Name").replaceAll("%player%", target.getName()))
-                .setLore(lang.getStringList("Staff.PlayerViewer.GUI.TopLuck.Lore"));
-        slot = config.getInt("Staff.PlayerViewer.GUI.TopLuck.Slot");
-        inv.item(slot, teleportPlayer.toItemStack());
-        inv.clickButton(slot, (player, aInventoryGUI, clickType) -> {
-            inspector.closeInventory();
-            // Open TopLuck inventory
-        });
+        if (inspector.hasPermission(config.getString("TopLuck.Permission"))) {
+            ItemCreator topLuck = new ItemCreator(Material.matchMaterial(config.getString("Staff.PlayerViewer.GUI.TopLuck.Material")))
+                    .setName(lang.getString("Staff.PlayerViewer.GUI.TopLuck.Name").replaceAll("%player%", target.getName()))
+                    .setLore(lang.getStringList("Staff.PlayerViewer.GUI.TopLuck.Lore"));
+            slot = config.getInt("Staff.PlayerViewer.GUI.TopLuck.Slot");
+            inv.item(slot, topLuck.toItemStack());
+            inv.clickButton(slot, (player, aInventoryGUI, clickType) -> {
+                inspector.closeInventory();
+                TopLuck.openTopLuck(player);
+            });
+        }
 
         for (int i = 4; i < 14; i++)
             inv.item(i, new ItemCreator(Material.GRAY_STAINED_GLASS_PANE).toItemStack());

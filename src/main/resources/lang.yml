@@ -64,5 +64,25 @@ Staff:
     # %player% : Player who unfreeze player
     UnfreezeByPlayer: "Vous venez d'être defreeze par %player% !"
     WrongAction: "Vous ne pouvez faire cela alors que vous êtez freeze !"
+TopLuck:
+  GUI:
+    Title: "Top Luck"
 
+Sanction:
+  NotPlayerSpecified: "Aucun joueur spécifié !"
+  # Variables:
+  # %player% : Name of player where u teleport
+  PlayerNotFound: "Le joueur %player% n'éxiste pas !"
+  GUI:
+    Title: "Sanction"
+    SanctionError: "Une erreur est survenu lors de la sanction"
+    Chat:
+      Name: "Chat"
+      Lore:
+        - "Lore"
+      Reasons:
+        Spam:
+          Name: "Spam"
+          Lore:
+            - "Lore"
 

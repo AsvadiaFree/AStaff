@@ -1,7 +1,10 @@
 package fr.asvadia.astaff;
 
+import fr.asvadia.astaff.commands.SanctionCommand;
 import fr.asvadia.astaff.commands.StaffCommand;
+import fr.asvadia.astaff.commands.TopLuckCommand;
 import fr.asvadia.astaff.utils.StaffListeners;
+import fr.asvadia.astaff.utils.TopLuckListeners;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.skyfighttv.simpleitem.SimpleItem;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,7 +30,10 @@ public class Main extends JavaPlugin {
         SimpleItem.init(this);
 
         getCommand("astaff").setExecutor(new StaffCommand());
+        getCommand("asanction").setExecutor(new SanctionCommand());
+        getCommand("atopluck").setExecutor(new TopLuckCommand());
         getServer().getPluginManager().registerEvents(new StaffListeners(), this);
+        getServer().getPluginManager().registerEvents(new TopLuckListeners(), this);
     }
 
     public static Main getInstance() {
