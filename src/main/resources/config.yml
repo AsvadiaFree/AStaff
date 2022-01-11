@@ -34,7 +34,7 @@ Staff:
       PlayerSkull:
         Slot: 0
       TeleportPlayer:
-        Material: "ENDERPEARL"
+        Material: "ENDER_PEARL"
         Slot: 1
       Sanction:
         Material: "DIAMOND_AXE"

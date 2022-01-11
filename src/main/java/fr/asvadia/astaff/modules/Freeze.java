@@ -24,19 +24,21 @@ public class Freeze extends Module {
         if (event instanceof PlayerInteractEntityEvent) {
             YamlConfiguration lang = FileManager.getValues().get(Files.Lang);
             PlayerInteractEntityEvent e = (PlayerInteractEntityEvent) event;
-            Player target = e.getPlayer();
-            if (frozen.contains(target)) {
-                frozen.remove(target);
+            if (e.getRightClicked() instanceof Player) {
+                Player target = (Player) e.getRightClicked();
+                if (frozen.contains(target)) {
+                    frozen.remove(target);
 
-                target.sendMessage(lang.getString("Staff.Freeze.UnfreezeByPlayer").replaceAll("%player%", player.getName()));
-                player.sendMessage(lang.getString("Staff.Freeze.PlayerUnfreeze").replaceAll("%player%", target.getName()));
-            } else {
-                frozen.add(target);
+                    target.sendMessage(lang.getString("Staff.Freeze.UnfreezeByPlayer").replaceAll("%player%", player.getName()));
+                    player.sendMessage(lang.getString("Staff.Freeze.PlayerUnfreeze").replaceAll("%player%", target.getName()));
+                } else {
+                    frozen.add(target);
 
-                target.teleport(target.getWorld().getHighestBlockAt(target.getLocation()).getLocation().add(0, 1, 0));
+                    target.teleport(target.getWorld().getHighestBlockAt(target.getLocation()).getLocation().add(0, 1, 0));
 
-                target.sendMessage(lang.getString("Staff.Freeze.FreezeByPlayer").replaceAll("%player%", player.getName()));
-                player.sendMessage(lang.getString("Staff.Freeze.PlayerFreeze").replaceAll("%player%", target.getName()));
+                    target.sendMessage(lang.getString("Staff.Freeze.FreezeByPlayer").replaceAll("%player%", player.getName()));
+                    player.sendMessage(lang.getString("Staff.Freeze.PlayerFreeze").replaceAll("%player%", target.getName()));
+                }
             }
         }
     }

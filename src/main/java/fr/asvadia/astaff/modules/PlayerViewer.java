@@ -8,10 +8,12 @@ import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.ItemCreator;
 import fr.skyfighttv.simpleitem.SimpleItem;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -30,7 +32,7 @@ public class PlayerViewer extends Module {
             PlayerInteractEntityEvent e = (PlayerInteractEntityEvent) event;
             if (e.getRightClicked() instanceof Player) {
                 YamlConfiguration lang = FileManager.getValues().get(Files.Lang);
-                player.sendMessage(lang.getString("Staff.PlayerViewer.InspectOf").replaceAll("player", e.getRightClicked().getName()));
+                player.sendMessage(lang.getString("Staff.PlayerViewer.InspectOf").replaceAll("%player%", e.getRightClicked().getName()));
                 openPlayerGui(player, (Player) e.getRightClicked());
             }
         }
@@ -41,7 +43,9 @@ public class PlayerViewer extends Module {
         TopLuck.updateTopLuck();
         YamlConfiguration config = FileManager.getValues().get(Files.Config);
         YamlConfiguration lang = FileManager.getValues().get(Files.Lang);
-        AInventoryGUI.Builder inv = new AInventoryGUI.Builder();
+        AInventoryGUI.Builder inv = new AInventoryGUI.Builder()
+                .size(54)
+                .title("Inspection de " + target.getName());
         int slot;
 
         // Create player skull Item
