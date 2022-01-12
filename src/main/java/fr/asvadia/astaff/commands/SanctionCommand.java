@@ -9,13 +9,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 public class SanctionCommand implements CommandExecutor {
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (sender instanceof Player p) {
             YamlConfiguration config = FileManager.getValues().get(Files.Config);
             YamlConfiguration lang = FileManager.getValues().get(Files.Lang);
             if (p.hasPermission(config.getString("Sanction.Permission")))

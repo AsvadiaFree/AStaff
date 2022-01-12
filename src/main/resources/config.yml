@@ -61,6 +61,10 @@ Staff:
       - "COBBLESTONE"
 TopLuck:
   Permission: "atopluck"
+  Webhook:
+    Url: ""
+    Alert: 7
+    Time: 18000
 Sanction:
   Permission: "asanction"
   GUI:

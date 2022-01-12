@@ -3,7 +3,6 @@ package fr.asvadia.astaff.commands;
 import fr.asvadia.astaff.modules.Freeze;
 import fr.asvadia.astaff.modules.PlayerViewer;
 import fr.asvadia.astaff.utils.Staff;
-import fr.asvadia.astaff.utils.StaffModules;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import org.bukkit.Bukkit;
@@ -12,13 +11,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 public class StaffCommand implements CommandExecutor {
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (sender instanceof Player p) {
             YamlConfiguration config = FileManager.getValues().get(Files.Config);
             if (args.length == 0) {
                 if (p.hasPermission(config.getString("Staff.Permission"))) {

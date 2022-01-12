@@ -14,9 +14,9 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 public class TopLuck {
-    public static HashMap<UUID, Double> playerScore = new HashMap<>();
-    public static HashMap<TopLuckOres, HashMap<UUID, Long>> playerOreCount = new HashMap<>();
-    public static HashMap<TopLuckOres, HashMap<UUID, Double>> playerOreScore = new HashMap<>();
+    public static final HashMap<UUID, Double> playerScore = new HashMap<>();
+    public static final HashMap<TopLuckOres, HashMap<UUID, Long>> playerOreCount = new HashMap<>();
+    public static final HashMap<TopLuckOres, HashMap<UUID, Double>> playerOreScore = new HashMap<>();
 
     public static void openTopLuck(Player player) {
         updateTopLuck();
@@ -84,5 +84,4 @@ public class TopLuck {
             playerOreScore.get(topLuckOres).putIfAbsent(player.getUniqueId(), 0.0);
         }
     }
-
 }

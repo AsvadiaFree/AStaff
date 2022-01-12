@@ -11,13 +11,14 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Sanction {
-    private static AInventoryGUI sanctionInventory;
+    private static final HashMap<Player, AInventoryGUI.Builder> sanctionInventory = new HashMap<>();
 
     public static void openSanctionGUI(Player player, Player target) {
-        if (sanctionInventory == null) {
+        if (!sanctionInventory.containsKey(player)) {
             YamlConfiguration config = FileManager.getValues().get(Files.Config);
             YamlConfiguration lang = FileManager.getValues().get(Files.Lang);
             String defaultPath = "Sanction.GUI";
@@ -71,8 +72,8 @@ public class Sanction {
                     });
                 }
             });
-            sanctionInventory = inv.build();
+            sanctionInventory.put(player, inv);
         }
-        player.openInventory(sanctionInventory.getInventory());
+        player.openInventory(sanctionInventory.get(player).build().getInventory());
     }
 }
