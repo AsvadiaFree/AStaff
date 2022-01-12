@@ -89,35 +89,4 @@ public class StaffListeners implements Listener {
             Staff.changeStaff(false, event.getPlayer());
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    private void onDead(EntityDamageEvent event) {
-        if (!event.isCancelled() && event.getEntity() instanceof Player) {
-            Player p = (Player) event.getEntity();
-            if (p.getHealth() - event.getFinalDamage() <= 0.0) {
-                event.setCancelled(true);
-                World world = p.getLocation().getWorld();
-                assert world != null;
-                for (ItemStack item : p.getInventory().getContents())
-                    if (item != null)
-                        world.dropItem(p.getLocation(), item);
-                ExperienceOrb exp = world.spawn(p.getLocation(), ExperienceOrb.class);
-                exp.setExperience(p.getTotalExperience());
-
-                Bukkit.getServer().getPluginManager().callEvent(new PlayerDeathEvent(p, Arrays.asList(p.getInventory().getContents()), p.getTotalExperience(), ""));
-
-                p.getInventory().clear();
-                p.getInventory().setArmorContents(new ItemStack[4]);
-                p.setTotalExperience(0);
-                p.setFireTicks(0);
-                p.teleport(new Location(p.getWorld(), 0, 71.1, 0));
-                p.setHealth(20.0);
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        p.setHealth(20.0);
-                    }
-                }.runTaskLater(Main.getInstance(), 2);
-            }
-        }
-    }
 }
