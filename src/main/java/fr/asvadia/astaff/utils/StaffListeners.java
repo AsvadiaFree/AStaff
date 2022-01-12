@@ -87,6 +87,11 @@ public class StaffListeners implements Listener {
     private void onQuit(PlayerQuitEvent event) {
         if(Staff.staffed.contains(event.getPlayer()))
             Staff.changeStaff(false, event.getPlayer());
+        if (Freeze.frozen.contains(event.getPlayer())) {
+            Bukkit.getOnlinePlayers().forEach(player -> {
+                if (Staff.staffed.contains(player))
+                    player.sendMessage(FileManager.getValues().get(Files.Lang).getString("Staff.Freeze.PlayerDisconnected").replaceAll("%player%", event.getPlayer().getName()));
+            });
+        }
     }
-
 }

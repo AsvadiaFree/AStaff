@@ -71,6 +71,9 @@ Staff:
     UnfreezeByPlayer: "Vous venez d'être defreeze par %player% !"
     WrongAction: "Vous ne pouvez faire cela alors que vous êtez freeze !"
     PlayerNotFound: "Aucun joueur n'a été trouvé !"
+    # Variables:
+    # %player% : Freeze player
+    PlayerDisconnected: "Le joueur %player% s'est déconnecté alors qu'il était freeze !"
 TopLuck:
   GUI:
     Title: "Top Luck"
