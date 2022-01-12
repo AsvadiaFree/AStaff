@@ -36,6 +36,13 @@ Staff:
       Lore:
         - "This is a ice to Xray player"
       Slot: 1
+    TopLuck:
+      Permission: "atopluck"
+      Material: "DIAMOND_PICKAXE"
+      Name: "TopLuck"
+      Lore:
+        - "This is a ice to TopLuck player"
+      Slot: 0
   PlayerViewer:
     GUI:
       PlayerSkull:

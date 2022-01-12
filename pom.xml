@@ -6,7 +6,7 @@
 
     <groupId>fr.asvadia</groupId>
     <artifactId>AStaff</artifactId>
-    <version>1.2</version>
+    <version>1.3</version>
     <build>
         <plugins>
             <plugin>

@@ -1,6 +1,7 @@
 package fr.asvadia.astaff.modules;
 
 import fr.asvadia.api.bukkit.menu.inventory.AInventoryGUI;
+import fr.asvadia.astaff.Main;
 import fr.asvadia.astaff.utils.Sanction;
 import fr.asvadia.astaff.utils.TopLuck;
 import fr.asvadia.astaff.utils.file.FileManager;
@@ -8,19 +9,20 @@ import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.ItemCreator;
 import fr.skyfighttv.simpleitem.SimpleItem;
 import me.clip.placeholderapi.PlaceholderAPI;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerViewer extends Module {
+    private static final List<Player> temp = new ArrayList<>();
+
     @Override
     public void apply(Player player, SimpleItem item) {
 
@@ -30,10 +32,18 @@ public class PlayerViewer extends Module {
     public void apply(Player player, SimpleItem item, Event event) {
         if (event instanceof PlayerInteractEntityEvent) {
             PlayerInteractEntityEvent e = (PlayerInteractEntityEvent) event;
-            if (e.getRightClicked() instanceof Player) {
+            if (e.getRightClicked() instanceof Player && !temp.contains((Player) e.getRightClicked())) {
+                temp.add((Player) e.getRightClicked());
                 YamlConfiguration lang = FileManager.getValues().get(Files.Lang);
                 player.sendMessage(lang.getString("Staff.PlayerViewer.InspectOf").replaceAll("%player%", e.getRightClicked().getName()));
                 openPlayerGui(player, (Player) e.getRightClicked());
+
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        temp.remove((Player) e.getRightClicked());
+                    }
+                }.runTaskTimer(Main.getInstance(), 0, 10);
             }
         }
     }
@@ -77,7 +87,7 @@ public class PlayerViewer extends Module {
         inv.clickButton(slot, (player, aInventoryGUI, clickType) -> {
             inspector.closeInventory();
             inspector.teleport(target);
-            inspector.sendMessage(lang.getString("Staff.PlayerViewer.GUI.TeleportPlayer.TeleportToPlayer"));
+            inspector.sendMessage(lang.getString("Staff.PlayerViewer.GUI.TeleportPlayer.TeleportToPlayer").replaceAll("%player%", target.getName()));
         });
 
         // Create Sanction Item

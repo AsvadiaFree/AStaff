@@ -2,6 +2,7 @@ package fr.asvadia.astaff;
 
 import fr.asvadia.astaff.commands.SanctionCommand;
 import fr.asvadia.astaff.commands.StaffCommand;
+import fr.asvadia.astaff.commands.StaffTabCompleter;
 import fr.asvadia.astaff.commands.TopLuckCommand;
 import fr.asvadia.astaff.utils.StaffListeners;
 import fr.asvadia.astaff.utils.TopLuckListeners;
@@ -30,6 +31,7 @@ public class Main extends JavaPlugin {
         SimpleItem.init(this);
 
         getCommand("astaff").setExecutor(new StaffCommand());
+        getCommand("astaff").setTabCompleter(new StaffTabCompleter());
         getCommand("asanction").setExecutor(new SanctionCommand());
         getCommand("atopluck").setExecutor(new TopLuckCommand());
         getServer().getPluginManager().registerEvents(new StaffListeners(), this);

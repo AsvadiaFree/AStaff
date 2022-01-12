@@ -2,6 +2,7 @@ package fr.asvadia.astaff.utils;
 
 import fr.asvadia.astaff.modules.Module;
 import fr.asvadia.astaff.modules.Vanish;
+import fr.asvadia.astaff.modules.XRay;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.SimpleItem;
@@ -50,7 +51,7 @@ public class Staff {
 
             player.getInventory().clear();
             player.getInventory().setArmorContents(new ItemStack[4]);
-            player.setGameMode(GameMode.CREATIVE);
+            player.setAllowFlight(true);
 
             YamlConfiguration config = FileManager.getValues().get(Files.Config);
 
@@ -61,7 +62,6 @@ public class Staff {
                     item.setLore(config.getStringList("Staff.Stuff." + s + ".Lore"));
                     item.onClick((player1, simpleItem, event) -> {
                         StaffModules staffModule = Staff.getByName(s);
-                        Bukkit.getLogger().info("click / " + staffModule + " / " + event.getEventName());
                         if (staffModule != null)
                             staffModule.getModule().apply(player1, simpleItem, event);
                     });
@@ -73,11 +73,13 @@ public class Staff {
         } else {
             player.getInventory().clear();
             player.getInventory().setArmorContents(new ItemStack[4]);
-            player.setGameMode(GameMode.SURVIVAL);
+            player.setAllowFlight(false);
             player.getInventory().setContents(staff.getList("players." + player.getName().toLowerCase() + ".oldInventory").toArray(new ItemStack[0]));
 
             staffed.remove(player);
             Vanish.vanished.add(player);
+            XRay.chunkLoaded.put(player, new ArrayList<>());
+            StaffModules.XRay.getModule().apply(player, null);
             StaffModules.VANISH.getModule().apply(player, null);
         }
     }

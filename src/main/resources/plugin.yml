@@ -2,6 +2,8 @@ name: AStaff
 main: fr.asvadia.astaff.Main
 version: 1.0
 api-version: 1.17
+depend:
+  - 'AsvadiaAPI'
 commands:
   asanction:
     aliases:

@@ -6,11 +6,17 @@ Staff:
     # Variables:
     # %player% : Name of player where u teleport
     PlayerFound: "Vous vous êtes téléporter sur le joueur %player% !"
+    # Variables:
+    # %player% : Name of player where u teleport
+    PlayerNotConnected: "Le joueur %player% n'est plus connecté au server !"
     PlayerNotFound: "Aucun joueur n'a été trouvé !"
   PlayerViewer:
     # Variables:
     # %player% : Name of player who is inspect
     InspectOf: "Vous inspectez le joueur %player% !"
+    # Variables:
+    # %player% : Name of player who is inspect
+    PlayerNotFound: "Le joueur %player% n'existe pas !"
     GUI:
       PlayerSkull:
         # Variables:
@@ -64,6 +70,7 @@ Staff:
     # %player% : Player who unfreeze player
     UnfreezeByPlayer: "Vous venez d'être defreeze par %player% !"
     WrongAction: "Vous ne pouvez faire cela alors que vous êtez freeze !"
+    PlayerNotFound: "Aucun joueur n'a été trouvé !"
 TopLuck:
   GUI:
     Title: "Top Luck"
@@ -72,7 +79,7 @@ Sanction:
   NotPlayerSpecified: "Aucun joueur spécifié !"
   # Variables:
   # %player% : Name of player where u teleport
-  PlayerNotFound: "Le joueur %player% n'éxiste pas !"
+  PlayerNotFound: "Le joueur %player% n'existe pas !"
   GUI:
     Title: "Sanction"
     SanctionError: "Une erreur est survenu lors de la sanction"

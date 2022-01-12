@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class XRay extends Module {
-    private static final HashMap<Player, List<Chunk>> chunkLoaded = new HashMap<>();
+    public static final HashMap<Player, List<Chunk>> chunkLoaded = new HashMap<>();
     private static List<Material> blocks;
 
     @Override
