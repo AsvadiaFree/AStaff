@@ -1,21 +1,26 @@
 package fr.asvadia.astaff.utils;
 
+import fr.asvadia.astaff.Main;
 import fr.asvadia.astaff.modules.Freeze;
 import fr.asvadia.astaff.modules.Vanish;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import net.minecraft.network.protocol.game.PacketPlayOutMapChunk;
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.GameMode;
+import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
+import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Arrays;
 
 public class StaffListeners implements Listener {
     @EventHandler
@@ -82,5 +87,37 @@ public class StaffListeners implements Listener {
     private void onQuit(PlayerQuitEvent event) {
         if(Staff.staffed.contains(event.getPlayer()))
             Staff.changeStaff(false, event.getPlayer());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    private void onDead(EntityDamageEvent event) {
+        if (!event.isCancelled() && event.getEntity() instanceof Player) {
+            Player p = (Player) event.getEntity();
+            if (p.getHealth() - event.getFinalDamage() <= 0.0) {
+                event.setCancelled(true);
+                World world = p.getLocation().getWorld();
+                assert world != null;
+                for (ItemStack item : p.getInventory().getContents())
+                    if (item != null)
+                        world.dropItem(p.getLocation(), item);
+                ExperienceOrb exp = world.spawn(p.getLocation(), ExperienceOrb.class);
+                exp.setExperience(p.getTotalExperience());
+
+                Bukkit.getServer().getPluginManager().callEvent(new PlayerDeathEvent(p, Arrays.asList(p.getInventory().getContents()), p.getTotalExperience(), ""));
+
+                p.getInventory().clear();
+                p.getInventory().setArmorContents(new ItemStack[4]);
+                p.setTotalExperience(0);
+                p.setFireTicks(0);
+                p.teleport(new Location(p.getWorld(), 0, 71.1, 0));
+                p.setHealth(20.0);
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        p.setHealth(20.0);
+                    }
+                }.runTaskLater(Main.getInstance(), 2);
+            }
+        }
     }
 }

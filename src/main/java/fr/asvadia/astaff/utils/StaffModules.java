@@ -7,7 +7,8 @@ public enum StaffModules {
     VANISH("Vanish", new Vanish()),
     RANDOM_TP("RandomTp", new RandomTp()),
     PLAYER_VIEWER("PlayerViewer", new PlayerViewer()),
-    FREEZE("Freeze", new Freeze()),;
+    FREEZE("Freeze", new Freeze()),
+    XRay("XRay", new XRay());
 
     private final String name;
     private final Module module;

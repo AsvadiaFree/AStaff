@@ -29,6 +29,13 @@ Staff:
       Lore:
         - "This is a ice to freeze player"
       Slot: 2
+    XRay:
+      Permission: "astaff.xray"
+      Material: "DIAMOND_PICKAXE"
+      Name: "XRay"
+      Lore:
+        - "This is a ice to Xray player"
+      Slot: 1
   PlayerViewer:
     GUI:
       PlayerSkull:
@@ -42,6 +49,9 @@ Staff:
       TopLuck:
         Material: "DIAMOND_PICKAXE"
         Slot: 3
+  XRay:
+    Blocks:
+      - "COBBLESTONE"
 TopLuck:
   Permission: "atopluck"
 Sanction:
