@@ -67,6 +67,8 @@ TopLuck:
     Time: 18000
 Sanction:
   Permission: "asanction"
+  Webhook:
+    Url: ""
   GUI:
     # Every category :
     Chat:

@@ -30,7 +30,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         SimpleItem.init(this);
-        TopLuckWebHook topLuckWebHook = new TopLuckWebHook();
+        new TopLuckWebHook();
 
         getCommand("astaff").setExecutor(new StaffCommand());
         getCommand("astaff").setTabCompleter(new StaffTabCompleter());

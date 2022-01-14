@@ -1,5 +1,8 @@
 package fr.asvadia.astaff.utils;
 
+import club.minnced.discord.webhook.WebhookClient;
+import club.minnced.discord.webhook.send.WebhookEmbed;
+import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import fr.asvadia.api.bukkit.menu.inventory.AInventoryGUI;
 import fr.asvadia.api.bukkit.menu.inventory.button.ClickButton;
 import fr.asvadia.astaff.utils.file.FileManager;
@@ -16,6 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Sanction {
     private static final HashMap<Player, AInventoryGUI.Builder> sanctionInventory = new HashMap<>();
+    private static WebhookClient webhook;
 
     public static void openSanctionGUI(Player player, Player target) {
         if (!sanctionInventory.containsKey(player)) {
@@ -65,6 +69,15 @@ public class Sanction {
                                     String time = config.getString(defaultPathReason + "." + s1 + ".Sanction.Time");
                                     String reason = config.getString(defaultPathReason + "." + s1 + ".Sanction.Reason");
                                     Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), type + " " + target.getName() + "" + time + " " + reason);
+                                    if (webhook == null)
+                                        webhook = WebhookClient.withUrl(config.getString("Sanction.Webhook.Url"));
+                                    WebhookEmbedBuilder embed = new WebhookEmbedBuilder()
+                                            .setAuthor(new WebhookEmbed.EmbedAuthor("Sanction", "https://asvadia.eu/storage/img/logo.png", "https://asvadia.eu/"))
+                                            .setColor(0xFF00EE)
+                                            .addField(new WebhookEmbed.EmbedField(true, player2.getName() + " a sanctionné " + target.getName(), "Type: " + type +
+                                                    "\nTime: " + time +
+                                                    "\nRaison: " + reason));
+                                    webhook.send(embed.build());
                                     player2.closeInventory();
                                 }));
                             }
