@@ -9,7 +9,6 @@ commands:
     aliases:
       - "as"
       - "sanction"
-      - "ss"
   astaff:
     aliases:
       - "staff"
