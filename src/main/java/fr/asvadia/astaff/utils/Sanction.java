@@ -78,6 +78,7 @@ public class Sanction {
                                                     "\nTime: " + time +
                                                     "\nRaison: " + reason));
                                     webhook.send(embed.build());
+                                    player2.sendMessage(config.getString(defaultPathReason + "." + s1 + ".Messages.Modo"));
                                     player2.closeInventory();
                                 }));
                             }
