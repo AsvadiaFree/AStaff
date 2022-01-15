@@ -71,7 +71,7 @@ public class Sanction {
                                     String type = config.getString(defaultPathReason + "." + s1 + ".Sanction.Type");
                                     String time = config.getString(defaultPathReason + "." + s1 + ".Sanction.Time");
                                     String reason = config.getString(defaultPathReason + "." + s1 + ".Sanction.Reason");
-                                    RequestManager.getInstance().request(player1, "dispatchCommand", type + " " + target.getName() + "" + time + " " + reason);
+                                    RequestManager.getInstance().request(player2, "dispatchCommand", type + " " + target.getName() + " --sender=" + player2.getName() + " " + time + " " + reason);
                                     if (webhook == null)
                                         webhook = WebhookClient.withUrl(config.getString("Sanction.Webhook.Url"));
                                     WebhookEmbedBuilder embed = new WebhookEmbedBuilder()

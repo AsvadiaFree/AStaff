@@ -22,6 +22,8 @@ public class StaffTabCompleter implements TabCompleter {
                 tab.add("view");
             if (sender.hasPermission(config.getString("Staff.Stuff.Freeze.Permission")))
                 tab.add("freeze");
+            if (sender.hasPermission("astaff.lockchat"))
+                tab.add("lockchat");
             return a(args, tab);
         }
         return null;

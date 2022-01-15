@@ -62,6 +62,17 @@ public class StaffCommand implements CommandExecutor {
                         }
                 }
             }
+        } else {
+            switch (args[0].toLowerCase()) {
+                case "lockchat":
+                    if (sender.hasPermission("astaff.lockchat")){
+                        Staff.setChatLock(!Staff.isChatLock());
+                        if (Staff.isChatLock())
+                            sender.sendMessage("§6§lStaff §f§l» §r§fVous venez de désactiver le chat !");
+                        else
+                            sender.sendMessage("§6§lStaff §f§l» §r§fVous venez de réactiver le chat !");
+                    }
+            }
         }
         return false;
     }

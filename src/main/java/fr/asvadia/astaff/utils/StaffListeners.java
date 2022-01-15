@@ -90,7 +90,8 @@ public class StaffListeners implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     private void onChat(AsyncPlayerChatEvent event) {
         if (Staff.isChatLock()
-                && !event.getPlayer().hasPermission("astaff"))
+                && !event.getPlayer().hasPermission("astaff")
+                && !event.getMessage().startsWith("/"))
             event.setCancelled(true);
     }
 }

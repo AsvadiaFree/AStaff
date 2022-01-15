@@ -60,6 +60,7 @@ Staff:
     Blocks:
       - "COBBLESTONE"
 TopLuck:
+  Enable: true
   Permission: "atopluck"
   Webhook:
     Url: ""
