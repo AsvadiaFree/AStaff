@@ -4,10 +4,12 @@ import org.bukkit.Material;
 
 public enum TopLuckOres {
     ALL("", null),
-    ASVADIUM("Asvadium", Material.COAL_ORE),
-    TOPAZE("Topaze", Material.DIAMOND_ORE),
-    RUBIS("Rubis", Material.COPPER_ORE),
-    SAPHIR("Saphir", Material.EMERALD_ORE);
+    ASVADIUM("Asvadium", Material.CYAN_GLAZED_TERRACOTTA),
+    TOPAZE("Topaze", Material.ORANGE_GLAZED_TERRACOTTA),
+    RUBIS("Rubis", Material.BLACK_GLAZED_TERRACOTTA),
+    SAPHIR("Saphir", Material.BLUE_GLAZED_TERRACOTTA),
+    DIAMOND("Diamant", Material.DIAMOND_ORE),
+    EMERALD("Emeraude", Material.EMERALD_ORE);
 
     private final String name;
     private final Material ore;
@@ -23,12 +25,5 @@ public enum TopLuckOres {
 
     public String getName() {
         return name;
-    }
-
-    public static TopLuckOres getByOre(Material material) {
-        for (TopLuckOres topLuckOres : TopLuckOres.values())
-            if (topLuckOres.getOre() == material)
-                return topLuckOres;
-        return null;
     }
 }

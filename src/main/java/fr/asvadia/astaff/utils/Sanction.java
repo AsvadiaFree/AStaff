@@ -5,13 +5,14 @@ import club.minnced.discord.webhook.send.WebhookEmbed;
 import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import fr.asvadia.api.bukkit.menu.inventory.AInventoryGUI;
 import fr.asvadia.api.bukkit.menu.inventory.button.ClickButton;
+import fr.asvadia.api.common.messaging.RequestManager;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.ItemCreator;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -33,15 +34,15 @@ public class Sanction {
             for (int i = 9; i < 18; i++)
                 inv.item(i, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
 
-            int slot = 0;
+            final int[] slot = {0};
             config.getConfigurationSection(defaultPath).getKeys(false).forEach(s -> {
                 if (player.hasPermission(config.getString(defaultPath + "." + s + ".Permission"))) {
-                    inv.item(slot,
+                    inv.item(slot[0],
                             new ItemCreator(Material.matchMaterial(config.getString(defaultPath + "." + s + ".Material")))
                                     .setName(lang.getString(defaultPath + "." + s + ".Name"))
                                     .setLore(lang.getStringList(defaultPath + "." + s + ".Lore"))
                                     .toItemStack());
-                    inv.clickButton(slot, (player1, aInventoryGUI, clickType) -> {
+                    inv.clickButton(slot[0], (player1, aInventoryGUI, clickType) -> {
                         for (int i = 18; i < 53; i++)
                             if (aInventoryGUI.getInventory().getItem(i) != null)
                                 aInventoryGUI.getInventory().setItem(i, null);
@@ -56,6 +57,8 @@ public class Sanction {
                                 aInventoryGUI.getInventory().setItem(slot2.get(), new ItemCreator(Material.matchMaterial(config.getString(defaultPathReason + "." + s1 + ".Material")))
                                         .setName(lang.getString(defaultPathReason + "." + s1 + ".Name"))
                                         .setLore(lang.getStringList(defaultPathReason + "." + s1 + ".Lore"))
+                                        .addItemFlag(ItemFlag.HIDE_ENCHANTS)
+                                        .addItemFlag(ItemFlag.HIDE_ATTRIBUTES)
                                         .toItemStack());
                                 aInventoryGUI.getButtons().put(slot2.get(), new ClickButton(slot2.get(), (player2, aInventoryGUI1, clickType1) -> {
                                     if (target == null) {
@@ -68,7 +71,7 @@ public class Sanction {
                                     String type = config.getString(defaultPathReason + "." + s1 + ".Sanction.Type");
                                     String time = config.getString(defaultPathReason + "." + s1 + ".Sanction.Time");
                                     String reason = config.getString(defaultPathReason + "." + s1 + ".Sanction.Reason");
-                                    Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), type + " " + target.getName() + "" + time + " " + reason);
+                                    RequestManager.getInstance().request(player1, "dispatchCommand", type + " " + target.getName() + "" + time + " " + reason);
                                     if (webhook == null)
                                         webhook = WebhookClient.withUrl(config.getString("Sanction.Webhook.Url"));
                                     WebhookEmbedBuilder embed = new WebhookEmbedBuilder()
@@ -78,12 +81,13 @@ public class Sanction {
                                                     "\nTime: " + time +
                                                     "\nRaison: " + reason));
                                     webhook.send(embed.build());
-                                    player2.sendMessage(config.getString(defaultPathReason + "." + s1 + ".Messages.Modo"));
+                                    player2.sendMessage(config.getString(defaultPathReason + "." + s1 + ".Messages.Modo").replaceAll("%PLAYER%", target.getName()));
                                     player2.closeInventory();
                                 }));
                             }
                         });
                     });
+                    slot[0]++;
                 }
             });
             sanctionInventory.put(player, inv);

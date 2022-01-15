@@ -1,26 +1,18 @@
 package fr.asvadia.astaff.utils;
 
-import fr.asvadia.astaff.Main;
 import fr.asvadia.astaff.modules.Freeze;
 import fr.asvadia.astaff.modules.Vanish;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
-import net.minecraft.network.protocol.game.PacketPlayOutMapChunk;
-import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
-import org.bukkit.entity.ExperienceOrb;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.Arrays;
 
 public class StaffListeners implements Listener {
     @EventHandler
@@ -93,5 +85,12 @@ public class StaffListeners implements Listener {
                     player.sendMessage(FileManager.getValues().get(Files.Lang).getString("Staff.Freeze.PlayerDisconnected").replaceAll("%player%", event.getPlayer().getName()));
             });
         }
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    private void onChat(AsyncPlayerChatEvent event) {
+        if (Staff.isChatLock()
+                && !event.getPlayer().hasPermission("astaff"))
+            event.setCancelled(true);
     }
 }

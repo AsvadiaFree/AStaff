@@ -52,6 +52,14 @@ public class StaffCommand implements CommandExecutor {
                                 p.sendMessage(lang.getString("Staff.Freeze.PlayerNotFound").replaceAll("%player%", "N/A"));
                         }
                         break;
+                    case "lockchat":
+                        if (p.hasPermission("astaff.lockchat")){
+                            Staff.setChatLock(!Staff.isChatLock());
+                            if (Staff.isChatLock())
+                                p.sendMessage("§6§lStaff §f§l» §r§fVous venez de désactiver le chat !");
+                            else
+                                p.sendMessage("§6§lStaff §f§l» §r§fVous venez de réactiver le chat !");
+                        }
                 }
             }
         }

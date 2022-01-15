@@ -6,19 +6,17 @@ import fr.asvadia.astaff.modules.XRay;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.SimpleItem;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Staff {
     public static List<Player> staffed = new ArrayList<>();
+    private static boolean chatLock = false;
     private static StaffModules[] staffModules = StaffModules.values();
 
     public static StaffModules getByName(String name) {
@@ -82,5 +80,21 @@ public class Staff {
             StaffModules.XRay.getModule().apply(player, null);
             StaffModules.VANISH.getModule().apply(player, null);
         }
+    }
+
+    public static List<Player> getStaffed() {
+        return staffed;
+    }
+
+    public static boolean isChatLock() {
+        return chatLock;
+    }
+
+    public static StaffModules[] getStaffModules() {
+        return staffModules;
+    }
+
+    public static void setChatLock(boolean chatLock) {
+        Staff.chatLock = chatLock;
     }
 }
