@@ -24,10 +24,8 @@ public class Freeze extends Module {
 
     @Override
     public void apply(Player player, SimpleItem item, Event event) {
-        if (event instanceof PlayerInteractEntityEvent) {
-            PlayerInteractEntityEvent e = (PlayerInteractEntityEvent) event;
-            if (e.getRightClicked() instanceof Player && !temp.contains((Player) e.getRightClicked())) {
-                Player target = (Player) e.getRightClicked();
+        if (event instanceof PlayerInteractEntityEvent e) {
+            if (e.getRightClicked() instanceof Player target && !temp.contains((Player) e.getRightClicked())) {
                 temp.add(target);
 
                 freeze(player, target);
@@ -53,7 +51,7 @@ public class Freeze extends Module {
         } else {
             frozen.add(target);
 
-            target.teleport(target.getWorld().getHighestBlockAt(target.getLocation()).getLocation().add(0, 1, 0));
+            target.teleport(target.getWorld().getHighestBlockAt(target.getLocation()).getLocation().add(0.5, 1, 0.5));
 
             target.sendMessage(lang.getString("Staff.Freeze.FreezeByPlayer").replaceAll("%player%", player.getName()));
             player.sendMessage(lang.getString("Staff.Freeze.PlayerFreeze").replaceAll("%player%", target.getName()));

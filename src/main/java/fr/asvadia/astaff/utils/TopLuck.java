@@ -33,8 +33,8 @@ public class TopLuck {
                 break;
 
             Player target = players.stream()
-                    .max(Comparator.comparing(o -> playerScore.get(o.getUniqueId())))
-                    .get();
+                    .sorted((o1, o2) -> Double.compare(playerScore.get(o2.getUniqueId()), playerScore.get(o1.getUniqueId())))
+                    .toList().get(0);
 
             players.remove(target);
 
