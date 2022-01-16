@@ -4,6 +4,7 @@ import fr.asvadia.api.bukkit.menu.inventory.AInventoryGUI;
 import fr.asvadia.astaff.Main;
 import fr.asvadia.astaff.utils.Sanction;
 import fr.asvadia.astaff.utils.TopLuck;
+import fr.asvadia.astaff.utils.TopLuckOres;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.ItemCreator;
@@ -30,8 +31,7 @@ public class PlayerViewer extends Module {
 
     @Override
     public void apply(Player player, SimpleItem item, Event event) {
-        if (event instanceof PlayerInteractEntityEvent) {
-            PlayerInteractEntityEvent e = (PlayerInteractEntityEvent) event;
+        if (event instanceof PlayerInteractEntityEvent e) {
             if (e.getRightClicked() instanceof Player && !temp.contains((Player) e.getRightClicked())) {
                 temp.add((Player) e.getRightClicked());
                 YamlConfiguration lang = FileManager.getValues().get(Files.Lang);
@@ -61,16 +61,19 @@ public class PlayerViewer extends Module {
         // Create player skull Item
         List<String> lore = new ArrayList<>();
         lang.getStringList("Staff.PlayerViewer.GUI.PlayerSkull.Lore").forEach(s -> {
-            lore.add(PlaceholderAPI.setPlaceholders(target, s)
-                    .replaceAll("%tlGlobalScore%", "0")
-                    .replaceAll("%tlAsvadiumCount%", "0")
-                    .replaceAll("%tlTopazeCount%", "0")
-                    .replaceAll("%tlRubisCount%", "0")
-                    .replaceAll("%tlSaphirCount%", "0")
-                    .replaceAll("%tlAsvadiumScore%", "0")
-                    .replaceAll("%tlTopazeScore%", "0")
-                    .replaceAll("%tlRubisScore%", "0")
-                    .replaceAll("%tlSaphirScore%", "0"));
+            lore.add(PlaceholderAPI.setPlaceholders(target, s.replaceAll("%tlGlobalScore%", TopLuck.playerScore.get(target.getUniqueId()) + "")
+                    .replaceAll("%tlAsvadiumCount%", String.valueOf(TopLuck.playerOreCount.get(TopLuckOres.ASVADIUM).get(target.getUniqueId())))
+                    .replaceAll("%tlTopazeCount%", String.valueOf(TopLuck.playerOreCount.get(TopLuckOres.TOPAZE).get(target.getUniqueId())))
+                    .replaceAll("%tlRubisCount%", String.valueOf(TopLuck.playerOreCount.get(TopLuckOres.RUBIS).get(target.getUniqueId())))
+                    .replaceAll("%tlSaphirCount%", String.valueOf(TopLuck.playerOreCount.get(TopLuckOres.SAPHIR).get(target.getUniqueId())))
+                    .replaceAll("%tlDiamondCount%", String.valueOf(TopLuck.playerOreCount.get(TopLuckOres.DIAMOND).get(target.getUniqueId())))
+                    .replaceAll("%tlEmeraldCount%", String.valueOf(TopLuck.playerOreCount.get(TopLuckOres.EMERALD).get(target.getUniqueId())))
+                    .replaceAll("%tlAsvadiumScore%", String.valueOf(TopLuck.playerOreScore.get(TopLuckOres.ASVADIUM).get(target.getUniqueId())))
+                    .replaceAll("%tlTopazeScore%", String.valueOf(TopLuck.playerOreScore.get(TopLuckOres.TOPAZE).get(target.getUniqueId())))
+                    .replaceAll("%tlRubisScore%", String.valueOf(TopLuck.playerOreScore.get(TopLuckOres.RUBIS).get(target.getUniqueId())))
+                    .replaceAll("%tlSaphirScore%", String.valueOf(TopLuck.playerOreScore.get(TopLuckOres.SAPHIR).get(target.getUniqueId())))
+                    .replaceAll("%tlDiamondScore%", String.valueOf(TopLuck.playerOreScore.get(TopLuckOres.DIAMOND).get(target.getUniqueId())))
+                    .replaceAll("%tlEmeraldScore%", String.valueOf(TopLuck.playerOreScore.get(TopLuckOres.EMERALD).get(target.getUniqueId())))));
         });
         ItemCreator playerSkull = new ItemCreator(Material.PLAYER_HEAD, 1)
                 .setName(lang.getString("Staff.PlayerViewer.GUI.PlayerSkull.Name").replaceAll("%player%", target.getName()))

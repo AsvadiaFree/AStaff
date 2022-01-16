@@ -3,15 +3,19 @@ package fr.asvadia.astaff.utils;
 import org.bukkit.Material;
 
 public enum TopLuckOres {
-    ALL(null),
-    ASVADIUM(Material.COAL_ORE),
-    TOPAZE(Material.DIAMOND_ORE),
-    RUBIS(Material.COPPER_ORE),
-    SAPHIR(Material.EMERALD_ORE);
+    ALL("", null),
+    ASVADIUM("Asvadium", Material.CYAN_GLAZED_TERRACOTTA),
+    TOPAZE("Topaze", Material.ORANGE_GLAZED_TERRACOTTA),
+    RUBIS("Rubis", Material.BLACK_GLAZED_TERRACOTTA),
+    SAPHIR("Saphir", Material.BLUE_GLAZED_TERRACOTTA),
+    DIAMOND("Diamant", Material.DIAMOND_ORE),
+    EMERALD("Emeraude", Material.EMERALD_ORE);
 
+    private final String name;
     private final Material ore;
 
-    TopLuckOres(Material ore) {
+    TopLuckOres(String name, Material ore) {
+        this.name = name;
         this.ore = ore;
     }
 
@@ -19,10 +23,7 @@ public enum TopLuckOres {
         return ore;
     }
 
-    public static TopLuckOres getByOre(Material material) {
-        for (TopLuckOres topLuckOres : TopLuckOres.values())
-            if (topLuckOres.getOre() == material)
-                return topLuckOres;
-        return null;
+    public String getName() {
+        return name;
     }
 }

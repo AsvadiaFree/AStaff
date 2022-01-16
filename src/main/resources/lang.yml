@@ -54,6 +54,16 @@ Staff:
         # Variables:
         # %player% : Name of player who is inspect
         Name: "TopLuck de %player%"
+        # Variables:
+        # %tlGlobalScore% : The global score of player on TopLuck
+        # %tlAsvadiumCount% : Number of Asvadium the player has mine
+        # %tlTopazeCount% : Number of Topaze the player has mine
+        # %tlRubisCount% : Number of Rubis the player has mine
+        # %tlSaphirCount% : Number of Saphir the player has mine
+        # %tlAsvadiumScore% : The TopLuck score of player in the ore
+        # %tlTopazeScore% : The TopLuck score of player in the ore
+        # %tlRubisScore% : The TopLuck score of player in the ore
+        # %tlSaphirScore% : The TopLuck score of player in the ore
         Lore:
           - ""
   Freeze:
@@ -71,10 +81,14 @@ Staff:
     UnfreezeByPlayer: "Vous venez d'être defreeze par %player% !"
     WrongAction: "Vous ne pouvez faire cela alors que vous êtez freeze !"
     PlayerNotFound: "Aucun joueur n'a été trouvé !"
+    # Variables:
+    # %player% : Freeze player
+    PlayerDisconnected: "Le joueur %player% s'est déconnecté alors qu'il était freeze !"
 TopLuck:
   GUI:
     Title: "Top Luck"
-
+    DefaultLore:
+      - ""
 Sanction:
   NotPlayerSpecified: "Aucun joueur spécifié !"
   # Variables:

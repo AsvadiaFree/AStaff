@@ -3,7 +3,6 @@ package fr.asvadia.astaff.commands;
 import fr.asvadia.astaff.modules.Freeze;
 import fr.asvadia.astaff.modules.PlayerViewer;
 import fr.asvadia.astaff.utils.Staff;
-import fr.asvadia.astaff.utils.StaffModules;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import org.bukkit.Bukkit;
@@ -12,13 +11,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 public class StaffCommand implements CommandExecutor {
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (sender instanceof Player p) {
             YamlConfiguration config = FileManager.getValues().get(Files.Config);
             if (args.length == 0) {
                 if (p.hasPermission(config.getString("Staff.Permission"))) {
@@ -55,7 +52,26 @@ public class StaffCommand implements CommandExecutor {
                                 p.sendMessage(lang.getString("Staff.Freeze.PlayerNotFound").replaceAll("%player%", "N/A"));
                         }
                         break;
+                    case "lockchat":
+                        if (p.hasPermission("astaff.lockchat")){
+                            Staff.setChatLock(!Staff.isChatLock());
+                            if (Staff.isChatLock())
+                                p.sendMessage("§6§lStaff §f§l» §r§fVous venez de désactiver le chat !");
+                            else
+                                p.sendMessage("§6§lStaff §f§l» §r§fVous venez de réactiver le chat !");
+                        }
                 }
+            }
+        } else {
+            switch (args[0].toLowerCase()) {
+                case "lockchat":
+                    if (sender.hasPermission("astaff.lockchat")){
+                        Staff.setChatLock(!Staff.isChatLock());
+                        if (Staff.isChatLock())
+                            sender.sendMessage("§6§lStaff §f§l» §r§fVous venez de désactiver le chat !");
+                        else
+                            sender.sendMessage("§6§lStaff §f§l» §r§fVous venez de réactiver le chat !");
+                    }
             }
         }
         return false;

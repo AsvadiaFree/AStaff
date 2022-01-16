@@ -15,9 +15,9 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 public class TopLuck {
-    public static HashMap<UUID, Double> playerScore = new HashMap<>();
-    public static HashMap<TopLuckOres, HashMap<UUID, Long>> playerOreCount = new HashMap<>();
-    public static HashMap<TopLuckOres, HashMap<UUID, Double>> playerOreScore = new HashMap<>();
+    public static final HashMap<UUID, Double> playerScore = new HashMap<>();
+    public static final HashMap<TopLuckOres, HashMap<UUID, Long>> playerOreCount = new HashMap<>();
+    public static final HashMap<TopLuckOres, HashMap<UUID, Double>> playerOreScore = new HashMap<>();
 
     public static void openTopLuck(Player player) {
         updateTopLuck();
@@ -39,6 +39,21 @@ public class TopLuck {
             players.remove(target);
 
             List<String> lore = new ArrayList<>();
+            lang.getStringList("TopLuck.GUI.DefaultLore").forEach(s -> {
+                lore.add(s.replaceAll("%tlGlobalScore%", TopLuck.playerScore.get(target.getUniqueId()) + "")
+                        .replaceAll("%tlAsvadiumCount%", String.valueOf(TopLuck.playerOreCount.get(TopLuckOres.ASVADIUM).get(target.getUniqueId())))
+                        .replaceAll("%tlTopazeCount%", String.valueOf(TopLuck.playerOreCount.get(TopLuckOres.TOPAZE).get(target.getUniqueId())))
+                        .replaceAll("%tlRubisCount%", String.valueOf(TopLuck.playerOreCount.get(TopLuckOres.RUBIS).get(target.getUniqueId())))
+                        .replaceAll("%tlSaphirCount%", String.valueOf(TopLuck.playerOreCount.get(TopLuckOres.SAPHIR).get(target.getUniqueId())))
+                        .replaceAll("%tlDiamondCount%", String.valueOf(TopLuck.playerOreCount.get(TopLuckOres.DIAMOND).get(target.getUniqueId())))
+                        .replaceAll("%tlEmeraldCount%", String.valueOf(TopLuck.playerOreCount.get(TopLuckOres.EMERALD).get(target.getUniqueId())))
+                        .replaceAll("%tlAsvadiumScore%", String.valueOf(TopLuck.playerOreScore.get(TopLuckOres.ASVADIUM).get(target.getUniqueId())))
+                        .replaceAll("%tlTopazeScore%", String.valueOf(TopLuck.playerOreScore.get(TopLuckOres.TOPAZE).get(target.getUniqueId())))
+                        .replaceAll("%tlRubisScore%", String.valueOf(TopLuck.playerOreScore.get(TopLuckOres.RUBIS).get(target.getUniqueId())))
+                        .replaceAll("%tlSaphirScore%", String.valueOf(TopLuck.playerOreScore.get(TopLuckOres.SAPHIR).get(target.getUniqueId())))
+                        .replaceAll("%tlDiamondScore%", String.valueOf(TopLuck.playerOreScore.get(TopLuckOres.DIAMOND).get(target.getUniqueId())))
+                        .replaceAll("%tlEmeraldScore%", String.valueOf(TopLuck.playerOreScore.get(TopLuckOres.EMERALD).get(target.getUniqueId()))));
+            });
             ItemCreator item = new ItemCreator(Material.PLAYER_HEAD, 1)
                     .setSkullOwner(target.getName())
                     .setName(target.getName())
@@ -54,7 +69,7 @@ public class TopLuck {
     }
 
     public static void updateTopLuck() {
-        DecimalFormat decimalFormat = new DecimalFormat("###.####");
+        DecimalFormat decimalFormat = new DecimalFormat("##,####");
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             putIfAbsent(player);
@@ -64,11 +79,10 @@ public class TopLuck {
                 if (topLuckOres.getOre() == null)
                     continue;
 
-                double score = Double.parseDouble(decimalFormat.format((double) (playerOreCount.get(topLuckOres).get(player.getUniqueId()) / playerOreCount.get(TopLuckOres.ALL).get(player.getUniqueId()) * 100)).replaceAll(",", "."));
+                double score = Double.parseDouble(decimalFormat.format(((double) playerOreCount.get(topLuckOres).get(player.getUniqueId()) /  (double) playerOreCount.get(TopLuckOres.ALL).get(player.getUniqueId())) * 100.0).replaceAll(",", "."));
                 globalScore += score;
                 playerOreScore.get(topLuckOres).put(player.getUniqueId(), score);
             }
-
             playerScore.put(player.getUniqueId(), Double.parseDouble(decimalFormat.format(globalScore)));
         }
     }
@@ -85,5 +99,4 @@ public class TopLuck {
             playerOreScore.get(topLuckOres).putIfAbsent(player.getUniqueId(), 0.0);
         }
     }
-
 }

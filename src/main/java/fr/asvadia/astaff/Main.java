@@ -6,7 +6,9 @@ import fr.asvadia.astaff.commands.StaffTabCompleter;
 import fr.asvadia.astaff.commands.TopLuckCommand;
 import fr.asvadia.astaff.utils.StaffListeners;
 import fr.asvadia.astaff.utils.TopLuckListeners;
+import fr.asvadia.astaff.utils.TopLuckWebHook;
 import fr.asvadia.astaff.utils.file.FileManager;
+import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.SimpleItem;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -33,9 +35,12 @@ public class Main extends JavaPlugin {
         getCommand("astaff").setExecutor(new StaffCommand());
         getCommand("astaff").setTabCompleter(new StaffTabCompleter());
         getCommand("asanction").setExecutor(new SanctionCommand());
-        getCommand("atopluck").setExecutor(new TopLuckCommand());
         getServer().getPluginManager().registerEvents(new StaffListeners(), this);
-        getServer().getPluginManager().registerEvents(new TopLuckListeners(), this);
+        if (FileManager.getValues().get(Files.Config).getBoolean("TopLuck.Enable")) {
+            getCommand("atopluck").setExecutor(new TopLuckCommand());
+            new TopLuckWebHook();
+            getServer().getPluginManager().registerEvents(new TopLuckListeners(), this);
+        }
     }
 
     public static Main getInstance() {

@@ -8,16 +8,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 public class TopLuckCommand implements CommandExecutor {
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (sender instanceof Player p) {
             YamlConfiguration config = FileManager.getValues().get(Files.Config);
-            if (player.hasPermission(config.getString("TopLuck.Permission")))
-                TopLuck.openTopLuck(player);
+            if (p.hasPermission(config.getString("TopLuck.Permission")))
+                TopLuck.openTopLuck(p);
         }
         return false;
     }

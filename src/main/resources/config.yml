@@ -60,9 +60,16 @@ Staff:
     Blocks:
       - "COBBLESTONE"
 TopLuck:
+  Enable: true
   Permission: "atopluck"
+  Webhook:
+    Url: ""
+    Alert: 7
+    Time: 18000
 Sanction:
   Permission: "asanction"
+  Webhook:
+    Url: ""
   GUI:
     # Every category :
     Chat:
