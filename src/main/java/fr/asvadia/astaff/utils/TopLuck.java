@@ -1,5 +1,6 @@
 package fr.asvadia.astaff.utils;
 
+/**/
 import fr.asvadia.api.bukkit.menu.inventory.AInventoryGUI;
 import fr.asvadia.astaff.modules.PlayerViewer;
 import fr.asvadia.astaff.utils.file.FileManager;

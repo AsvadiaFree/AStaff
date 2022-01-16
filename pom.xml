@@ -34,6 +34,10 @@
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -44,20 +48,20 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.github.SkyfightTV</groupId>
+            <artifactId>SimpleItem</artifactId>
+            <version>cdeed3066c</version>
+        </dependency>
+        <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>2.11.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>Plugins</groupId>
+            <groupId>fr.asvadia</groupId>
             <artifactId>AsvadiaAPI</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>fr.skyfighttv</groupId>
-            <artifactId>SimpleItem</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
         </dependency>
     </dependencies>
 </project>

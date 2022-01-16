@@ -28,6 +28,8 @@ public class Sanction {
             for (int i = 9; i < 18; i++)
                 inv.item(i, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
 
+
+            final Player targetFinal = target;
             int slot = 0;
             config.getConfigurationSection(defaultPath).getKeys(false).forEach(s -> {
                 if (player.hasPermission(config.getString(defaultPath + "." + s + ".Permission"))) {
@@ -53,7 +55,7 @@ public class Sanction {
                                         .setLore(lang.getStringList(defaultPathReason + "." + s1 + ".Lore"))
                                         .toItemStack());
                                 aInventoryGUI.getButtons().put(slot2.get(), new ClickButton(slot2.get(), (player2, aInventoryGUI1, clickType1) -> {
-                                    if (target == null) {
+                                    if (targetFinal == null) {
                                         player2.sendMessage(lang.getString(defaultPath + ".SanctionError"));
                                         player2.closeInventory();
                                         return;
@@ -63,7 +65,7 @@ public class Sanction {
                                     String type = config.getString(defaultPathReason + "." + s1 + ".Sanction.Type");
                                     String time = config.getString(defaultPathReason + "." + s1 + ".Sanction.Time");
                                     String reason = config.getString(defaultPathReason + "." + s1 + ".Sanction.Reason");
-                                    Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), type + " " + target.getName() + "" + time + " " + reason);
+                                    Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(), type + " " + targetFinal.getName() + "" + time + " " + reason);
                                     player2.closeInventory();
                                 }));
                             }
