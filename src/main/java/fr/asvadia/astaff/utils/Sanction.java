@@ -34,6 +34,7 @@ public class Sanction {
             for (int i = 9; i < 18; i++)
                 inv.item(i, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
 
+            final Player targetFinal = target;
             final int[] slot = {0};
             config.getConfigurationSection(defaultPath).getKeys(false).forEach(s -> {
                 if (player.hasPermission(config.getString(defaultPath + "." + s + ".Permission"))) {
@@ -61,7 +62,7 @@ public class Sanction {
                                         .addItemFlag(ItemFlag.HIDE_ATTRIBUTES)
                                         .toItemStack());
                                 aInventoryGUI.getButtons().put(slot2.get(), new ClickButton(slot2.get(), (player2, aInventoryGUI1, clickType1) -> {
-                                    if (target == null) {
+                                    if (targetFinal == null) {
                                         player2.sendMessage(lang.getString(defaultPath + ".SanctionError"));
                                         player2.closeInventory();
                                         return;
@@ -71,17 +72,17 @@ public class Sanction {
                                     String type = config.getString(defaultPathReason + "." + s1 + ".Sanction.Type");
                                     String time = config.getString(defaultPathReason + "." + s1 + ".Sanction.Time");
                                     String reason = config.getString(defaultPathReason + "." + s1 + ".Sanction.Reason");
-                                    RequestManager.getInstance().request(player2, "dispatchCommand", type + " " + target.getName() + " --sender=" + player2.getName() + " " + time + " " + reason);
+                                    RequestManager.getInstance().request(player2, "dispatchCommand", type + " " + targetFinal.getName() + " --sender=" + player2.getName() + " " + time + " " + reason);
                                     if (webhook == null)
                                         webhook = WebhookClient.withUrl(config.getString("Sanction.Webhook.Url"));
                                     WebhookEmbedBuilder embed = new WebhookEmbedBuilder()
                                             .setAuthor(new WebhookEmbed.EmbedAuthor("Sanction", "https://asvadia.eu/storage/img/logo.png", "https://asvadia.eu/"))
                                             .setColor(0xFF00EE)
-                                            .addField(new WebhookEmbed.EmbedField(true, player2.getName() + " a sanctionné " + target.getName(), "Type: " + type +
+                                            .addField(new WebhookEmbed.EmbedField(true, player2.getName() + " a sanctionné " + targetFinal.getName(), "Type: " + type +
                                                     "\nTime: " + time +
                                                     "\nRaison: " + reason));
                                     webhook.send(embed.build());
-                                    player2.sendMessage(config.getString(defaultPathReason + "." + s1 + ".Messages.Modo").replaceAll("%PLAYER%", target.getName()));
+                                    player2.sendMessage(config.getString(defaultPathReason + "." + s1 + ".Messages.Modo").replaceAll("%PLAYER%", targetFinal.getName()));
                                     player2.closeInventory();
                                 }));
                             }
