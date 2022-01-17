@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.*;
 
 public class StaffListeners implements Listener {
@@ -62,8 +63,9 @@ public class StaffListeners implements Listener {
     }
 
     @EventHandler
-    private void onPickup(PlayerPickupItemEvent event) {
-        if(Staff.staffed.contains(event.getPlayer()))
+    private void onPickup(EntityPickupItemEvent event) {
+        if(event.getEntity() instanceof Player p
+            && Staff.staffed.contains(p))
             event.setCancelled(true);
     }
 
@@ -75,8 +77,8 @@ public class StaffListeners implements Listener {
 
     @EventHandler
     private void onDamageStaff(EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player)
-            if(Staff.staffed.contains((Player)event.getEntity()))
+        if (event.getEntity() instanceof Player p
+                && Staff.staffed.contains(p))
                 event.setCancelled(true);
     }
 

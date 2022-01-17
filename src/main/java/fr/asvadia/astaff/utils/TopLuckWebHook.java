@@ -32,7 +32,7 @@ public class TopLuckWebHook extends BukkitRunnable {
         TopLuck.updateTopLuck();
 
         List<Player> players = ((List<Player>) new ArrayList<>(Bukkit.getOnlinePlayers())).stream()
-                .sorted(Comparator.comparingDouble(value -> TopLuck.playerScore.get(value.getUniqueId())))
+                .sorted((o1, o2) -> Double.compare(TopLuck.playerScore.get(o2.getUniqueId()), TopLuck.playerScore.get(o1.getUniqueId())))
                 .toList();
         boolean isAlert = false;
 
@@ -72,7 +72,9 @@ public class TopLuckWebHook extends BukkitRunnable {
             embed.addField(new WebhookEmbed.EmbedField(true, name, value.toString()));
         }
         webhook.send(embed.build());
-        if (isAlert)
+        if (isAlert) {
             webhook.send("<@" + config.getString("TopLuck.Webhook.AlertRole") + ">");
+            Staff.staffed.forEach(player -> player.sendTitle("§c§lALERT TOPLUCK", "§f§lUn joueur a dépassé la limite fixé !", 20, 40, 20));
+        }
     }
 }
