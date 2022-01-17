@@ -34,8 +34,9 @@ public class StaffListeners implements Listener {
                 && event.getAction() == Action.RIGHT_CLICK_BLOCK
                 && event.getClickedBlock() != null
                 && event.getClickedBlock().getType() == Material.CHEST) {
-            Chest c = (Chest) event.getClickedBlock().getState();
             event.setCancelled(true);
+            Chest c = (Chest) event.getClickedBlock().getState();
+            event.getPlayer().closeInventory();
             event.getPlayer().openInventory(c.getInventory());
             event.getPlayer().sendMessage("§6§lStaff §f» §7Ouverture silencieuse du coffre.");
         }
