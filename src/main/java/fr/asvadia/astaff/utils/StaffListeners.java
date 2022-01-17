@@ -5,11 +5,13 @@ import fr.asvadia.astaff.modules.Vanish;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.*;
@@ -28,6 +30,14 @@ public class StaffListeners implements Listener {
         if (Freeze.frozen.contains(event.getPlayer())) {
             event.setCancelled(true);
             event.getPlayer().sendMessage(FileManager.getValues().get(Files.Lang).getString("Staff.Freeze.WrongAction"));
+        } else if (Staff.staffed.contains(event.getPlayer())
+                && event.getAction() == Action.RIGHT_CLICK_BLOCK
+                && event.getClickedBlock() != null
+                && event.getClickedBlock().getType() == Material.CHEST) {
+            Chest c = (Chest) event.getClickedBlock().getState();
+            event.setCancelled(true);
+            event.getPlayer().openInventory(c.getInventory());
+            event.getPlayer().sendMessage("§6§lStaff §f» §7Ouverture silencieuse du coffre.");
         }
     }
 
@@ -67,12 +77,6 @@ public class StaffListeners implements Listener {
         if (event.getEntity() instanceof Player)
             if(Staff.staffed.contains((Player)event.getEntity()))
                 event.setCancelled(true);
-    }
-
-    @EventHandler
-    private void onChangeWorld(PlayerChangedWorldEvent event) {
-        if(Staff.staffed.contains(event.getPlayer()))
-            event.getPlayer().setGameMode(GameMode.CREATIVE);
     }
 
     @EventHandler

@@ -41,7 +41,7 @@ public class XRay extends Module {
         }
 
         if (chunkLoaded.containsKey(player)) {
-            player.setGameMode(GameMode.CREATIVE);
+            player.setGameMode(GameMode.SURVIVAL);
             chunkLoaded.get(player).forEach(chunk ->
                     ((CraftPlayer) player).getHandle().b.sendPacket(new PacketPlayOutMapChunk(((CraftChunk) chunk).getHandle())));
             chunkLoaded.remove(player);
