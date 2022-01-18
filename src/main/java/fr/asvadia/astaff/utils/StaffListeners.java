@@ -43,6 +43,10 @@ public class StaffListeners implements Listener {
             event.getPlayer().closeInventory();
             event.getPlayer().openInventory(c.getInventory());
             event.getPlayer().sendMessage("§6§lStaff §f» §7Ouverture silencieuse du coffre.");
+        } else if (event.getItem() != null
+                && event.getItem().getType() == Material.FISHING_ROD) {
+            event.setCancelled(true);
+            event.getPlayer().sendMessage("§6§lFaction §f» §7Les cannes à pêche sont temporairement désactivé !");
         }
     }
 

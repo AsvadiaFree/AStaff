@@ -17,10 +17,20 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class WorldScanner {
+public class WorldScanner extends BukkitRunnable {
     private static WebhookClient client;
     private static boolean running = false;
+    private final List<Chunk> chunks;
+    private final YamlConfiguration ws;
+    private boolean runnable;
+
+    public WorldScanner(YamlConfiguration ws) {
+        this.ws = ws;
+        this.chunks = new ArrayList<>();
+        this.runnable = false;
+    }
 
     public static void init() {
         try {
@@ -44,6 +54,7 @@ public class WorldScanner {
 
         final int[] X = {-x};
         final int[] Z = {-z};
+        WorldScanner worldScanner = new WorldScanner(ws);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -56,25 +67,10 @@ public class WorldScanner {
                         Z[0]++;
                     }
 
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            Chunk chunk = world.getChunkAt(finalX, finalZ);
-                            for (BlockState state : chunk.getTileEntities())
-                                if (state instanceof Container c) {
-                                    List<String> str = new ArrayList<>();
-                                    for (ItemStack item : c.getInventory().getContents())
-                                        if (item != null)
-                                            str.add(item.getAmount() + "x " + item.getType().name());
-                                    if (!str.isEmpty()) {
-                                        Location loc = c.getLocation();
-                                        ws.set(loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ(), str.toArray());
-                                    }
-                                }
-                        }
-                    }.runTask(Main.getInstance());
+                    worldScanner.addChunk(world.getChunkAt(finalX, finalZ));
 
                     if (Z[0] >= x) {
+                        worldScanner.cancel();
                         this.cancel();
                         FileManager.save(Files.WorldScanner);
 
@@ -84,7 +80,7 @@ public class WorldScanner {
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(Main.getInstance(), 0, 1);
+        }.runTaskTimerAsynchronously(Main.getInstance(), 0, 0);
 
         if (client != null) {
             new BukkitRunnable() {
@@ -95,6 +91,36 @@ public class WorldScanner {
                         this.cancel();
                 }
             }.runTaskTimerAsynchronously(Main.getInstance(), 0, 600);
+        }
+    }
+
+    @Override
+    public void run() {
+        if (!chunks.isEmpty())
+            for (Chunk chunk : new ArrayList<>(chunks)) {
+                Bukkit.getLogger().info("Check chunk");
+                for (BlockState state : chunk.getTileEntities()) {
+                    if (state instanceof Container c) {
+                        List<String> str = new ArrayList<>();
+                        for (ItemStack item : c.getInventory().getContents())
+                            if (item != null)
+                                str.add(item.getAmount() + "x " + item.getType().name() + " data : " + (item.hasItemMeta() ? Objects.requireNonNull(item.getItemMeta()).getCustomModelData() : 0));
+                        if (!str.isEmpty()) {
+                            Location loc = c.getLocation();
+                            ws.set(loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ(), str.toArray());
+                        }
+                    }
+                }
+                this.chunks.remove(chunk);
+            }
+        this.runnable = true;
+    }
+
+    public void addChunk(Chunk chunk) {
+        this.chunks.add(chunk);
+        if (this.runnable) {
+            this.runnable = false;
+            this.runTask(Main.getInstance());
         }
     }
 }

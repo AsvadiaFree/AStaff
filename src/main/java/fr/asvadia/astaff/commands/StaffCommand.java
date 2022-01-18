@@ -95,6 +95,9 @@ public class StaffCommand implements CommandExecutor {
                         }
                     }.runTaskLater(Main.getInstance(), 200);
                     break;
+                case "worldscanner":
+                    WorldScanner.scan(Bukkit.getWorld("world"), Integer.parseInt(args[1]), Integer.parseInt(args[1]));
+                    break;
             }
         }
         return false;
