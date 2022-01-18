@@ -7,6 +7,7 @@ import fr.asvadia.astaff.commands.TopLuckCommand;
 import fr.asvadia.astaff.utils.StaffListeners;
 import fr.asvadia.astaff.utils.TopLuckListeners;
 import fr.asvadia.astaff.utils.TopLuckWebHook;
+import fr.asvadia.astaff.utils.WorldScanner;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.SimpleItem;
@@ -31,6 +32,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         SimpleItem.init(this);
+        WorldScanner.init();
 
         getCommand("astaff").setExecutor(new StaffCommand());
         getCommand("astaff").setTabCompleter(new StaffTabCompleter());

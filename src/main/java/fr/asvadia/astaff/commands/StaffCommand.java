@@ -91,7 +91,7 @@ public class StaffCommand implements CommandExecutor {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
+                            Bukkit.shutdown();
                         }
                     }.runTaskLater(Main.getInstance(), 200);
                     break;

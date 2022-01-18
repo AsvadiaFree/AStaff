@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class WorldScanner {
@@ -48,7 +47,7 @@ public class WorldScanner {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (MinecraftServer.getServer().recentTps[0] > 17.5) {
+                if (MinecraftServer.getServer().recentTps[0] > 19) {
                     int finalX = X[0]++;
                     int finalZ = Z[0];
 
@@ -86,5 +85,16 @@ public class WorldScanner {
                 }
             }
         }.runTaskTimerAsynchronously(Main.getInstance(), 0, 1);
+
+        if (client != null) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    client.send("Progression actuelle >> X : " + X[0] + " et Z : " + Z[0]);
+                    if (Z[0] >= x)
+                        this.cancel();
+                }
+            }.runTaskTimerAsynchronously(Main.getInstance(), 0, 600);
+        }
     }
 }

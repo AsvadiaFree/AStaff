@@ -64,6 +64,7 @@ TopLuck:
   Permission: "atopluck"
   Webhook:
     Url: ""
+    AlertRole: "932811435191459841"
     Alert: 7
     Time: 18000
 Sanction:
