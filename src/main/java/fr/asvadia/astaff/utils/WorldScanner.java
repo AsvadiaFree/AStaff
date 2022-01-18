@@ -48,7 +48,7 @@ public class WorldScanner {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (MinecraftServer.getServer().recentTps[0] > 16) {
+                if (MinecraftServer.getServer().recentTps[0] > 17.5) {
                     int finalX = X[0]++;
                     int finalZ = Z[0];
 
