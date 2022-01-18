@@ -18,6 +18,7 @@ public class Staff {
     public static List<Player> staffed = new ArrayList<>();
     private static boolean chatLock = false;
     private static StaffModules[] staffModules = StaffModules.values();
+    public static boolean safeStop = false;
 
     public static StaffModules getByName(String name) {
         if (staffModules == null)

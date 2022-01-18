@@ -7,15 +7,18 @@ import fr.asvadia.astaff.utils.file.Files;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
+import org.bukkit.entity.Fish;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.util.Vector;
 
 public class StaffListeners implements Listener {
     @EventHandler
@@ -48,6 +51,10 @@ public class StaffListeners implements Listener {
         if(event.getDamager() instanceof Player && event.getEntity() instanceof Player)
             if(Freeze.frozen.contains((Player)event.getDamager()) || Freeze.frozen.contains((Player)event.getEntity()))
                 event.setCancelled(true);
+        if(event.getDamager() instanceof Fish f) {
+            f.remove();
+            event.getEntity().setVelocity(new Vector(0, 0, 0));
+        }
     }
 
     @EventHandler
@@ -100,5 +107,11 @@ public class StaffListeners implements Listener {
                 && !event.getPlayer().hasPermission("astaff")
                 && !event.getMessage().startsWith("/"))
             event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onLoad(PlayerLoginEvent event) {
+        if (Staff.safeStop)
+            event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
     }
 }

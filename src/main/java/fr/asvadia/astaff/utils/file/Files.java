@@ -3,7 +3,8 @@ package fr.asvadia.astaff.utils.file;
 public enum Files {
     Config("config"),
     Staff("staff"),
-    Lang("lang");
+    Lang("lang"),
+    WorldScanner("ws");
 
     private final String name;
 

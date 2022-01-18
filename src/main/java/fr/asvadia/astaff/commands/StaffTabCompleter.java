@@ -24,6 +24,8 @@ public class StaffTabCompleter implements TabCompleter {
                 tab.add("freeze");
             if (sender.hasPermission("astaff.lockchat"))
                 tab.add("lockchat");
+            if (sender.hasPermission("astaff.worldscanner"))
+                tab.add("worldscanner");
             return a(args, tab);
         }
         return null;

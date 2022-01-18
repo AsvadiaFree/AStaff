@@ -1,16 +1,20 @@
 package fr.asvadia.astaff.commands;
 
+import fr.asvadia.astaff.Main;
 import fr.asvadia.astaff.modules.Freeze;
 import fr.asvadia.astaff.modules.PlayerViewer;
 import fr.asvadia.astaff.utils.Staff;
+import fr.asvadia.astaff.utils.WorldScanner;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class StaffCommand implements CommandExecutor {
     @Override
@@ -60,18 +64,37 @@ public class StaffCommand implements CommandExecutor {
                             else
                                 p.sendMessage("§6§lStaff §f§l» §r§fVous venez de réactiver le chat !");
                         }
+                        break;
+                    case "worldscanner":
+                        if (p.hasPermission("astaff.worldscanner")
+                                && args.length == 2) {
+                            WorldScanner.scan(p.getWorld(), Integer.parseInt(args[1]), Integer.parseInt(args[1]));
+                        }
+                        break;
                 }
             }
-        } else {
+        } else if (sender instanceof ConsoleCommandSender) {
             switch (args[0].toLowerCase()) {
                 case "lockchat":
-                    if (sender.hasPermission("astaff.lockchat")){
-                        Staff.setChatLock(!Staff.isChatLock());
-                        if (Staff.isChatLock())
-                            sender.sendMessage("§6§lStaff §f§l» §r§fVous venez de désactiver le chat !");
-                        else
-                            sender.sendMessage("§6§lStaff §f§l» §r§fVous venez de réactiver le chat !");
+                    Staff.setChatLock(!Staff.isChatLock());
+                    if (Staff.isChatLock())
+                        sender.sendMessage("§6§lStaff §f§l» §r§fVous venez de désactiver le chat !");
+                    else
+                        sender.sendMessage("§6§lStaff §f§l» §r§fVous venez de réactiver le chat !");
+                    break;
+                case "stop":
+                    Staff.safeStop = true;
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.closeInventory();
+                        player.kickPlayer("§6§lRedemarrage §f§l» §r§fRedémarrage automatique...");
                     }
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop");
+                        }
+                    }.runTaskLater(Main.getInstance(), 200);
+                    break;
             }
         }
         return false;
