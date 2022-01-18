@@ -1,7 +1,8 @@
-package fr.asvadia.astaff.utils;
+package fr.asvadia.astaff.staff;
 
-import fr.asvadia.astaff.modules.Freeze;
-import fr.asvadia.astaff.modules.Vanish;
+import fr.asvadia.astaff.Main;
+import fr.asvadia.astaff.staff.modules.Freeze;
+import fr.asvadia.astaff.staff.modules.Vanish;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import org.bukkit.Bukkit;
@@ -13,7 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
@@ -70,7 +70,7 @@ public class StaffListeners implements Listener {
     @EventHandler
     private void onJoin(PlayerJoinEvent event) {
         for (Player vanish : Vanish.vanished)
-            event.getPlayer().hidePlayer(vanish);
+            event.getPlayer().hidePlayer(Main.getInstance(), vanish);
     }
 
     @EventHandler

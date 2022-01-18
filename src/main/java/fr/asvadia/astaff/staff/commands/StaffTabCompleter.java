@@ -1,4 +1,4 @@
-package fr.asvadia.astaff.commands;
+package fr.asvadia.astaff.staff.commands;
 
 import com.google.common.base.Functions;
 import com.google.common.collect.Iterables;

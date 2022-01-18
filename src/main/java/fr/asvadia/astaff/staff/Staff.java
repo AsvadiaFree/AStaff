@@ -1,8 +1,8 @@
-package fr.asvadia.astaff.utils;
+package fr.asvadia.astaff.staff;
 
-import fr.asvadia.astaff.modules.Module;
-import fr.asvadia.astaff.modules.Vanish;
-import fr.asvadia.astaff.modules.XRay;
+import fr.asvadia.astaff.staff.modules.Module;
+import fr.asvadia.astaff.staff.modules.Vanish;
+import fr.asvadia.astaff.staff.modules.XRay;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.SimpleItem;
@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Staff {
     public static List<Player> staffed = new ArrayList<>();
@@ -73,7 +74,7 @@ public class Staff {
             player.getInventory().clear();
             player.getInventory().setArmorContents(new ItemStack[4]);
             player.setAllowFlight(false);
-            player.getInventory().setContents(staff.getList("players." + player.getName().toLowerCase() + ".oldInventory").toArray(new ItemStack[0]));
+            player.getInventory().setContents(Objects.requireNonNull(staff.getList("players." + player.getName().toLowerCase() + ".oldInventory")).toArray(new ItemStack[0]));
 
             staffed.remove(player);
             Vanish.vanished.add(player);

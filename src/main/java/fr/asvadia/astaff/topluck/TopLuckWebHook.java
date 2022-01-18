@@ -1,4 +1,4 @@
-package fr.asvadia.astaff.utils;
+package fr.asvadia.astaff.topluck;
 
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookEmbed;
@@ -6,13 +6,13 @@ import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import fr.asvadia.astaff.Main;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
+import fr.asvadia.astaff.staff.Staff;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class TopLuckWebHook extends BukkitRunnable {

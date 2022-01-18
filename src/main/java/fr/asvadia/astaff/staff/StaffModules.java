@@ -1,8 +1,7 @@
-package fr.asvadia.astaff.utils;
+package fr.asvadia.astaff.staff;
 
-import fr.asvadia.astaff.modules.*;
-import fr.asvadia.astaff.modules.Module;
-import fr.asvadia.astaff.modules.TopLuck;
+import fr.asvadia.astaff.staff.modules.*;
+import fr.asvadia.astaff.staff.modules.Module;
 
 public enum StaffModules {
     VANISH("Vanish", new Vanish()),

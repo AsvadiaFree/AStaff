@@ -1,7 +1,7 @@
-package fr.asvadia.astaff.modules;
+package fr.asvadia.astaff.staff.modules;
 
 import fr.asvadia.astaff.Main;
-import fr.asvadia.astaff.utils.StaffModules;
+import fr.asvadia.astaff.staff.StaffModules;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.SimpleItem;

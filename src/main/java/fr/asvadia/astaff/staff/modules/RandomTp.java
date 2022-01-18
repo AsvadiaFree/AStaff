@@ -1,4 +1,4 @@
-package fr.asvadia.astaff.modules;
+package fr.asvadia.astaff.staff.modules;
 
 import fr.asvadia.api.bukkit.menu.inventory.AInventoryGUI;
 import fr.asvadia.astaff.Main;

@@ -1,4 +1,4 @@
-package fr.asvadia.astaff.modules;
+package fr.asvadia.astaff.staff.modules;
 
 import fr.skyfighttv.simpleitem.SimpleItem;
 import org.bukkit.entity.Player;

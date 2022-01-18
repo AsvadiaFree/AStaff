@@ -1,4 +1,4 @@
-package fr.asvadia.astaff.utils;
+package fr.asvadia.astaff.sanction;
 
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookEmbed;

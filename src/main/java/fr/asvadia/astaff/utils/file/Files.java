@@ -4,6 +4,7 @@ public enum Files {
     Config("config"),
     Staff("staff"),
     Lang("lang"),
+    Scanner("scanner"),
     WorldScanner("ws");
 
     private final String name;

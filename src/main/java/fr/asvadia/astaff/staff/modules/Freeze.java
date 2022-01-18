@@ -1,4 +1,4 @@
-package fr.asvadia.astaff.modules;
+package fr.asvadia.astaff.staff.modules;
 
 import fr.asvadia.astaff.Main;
 import fr.asvadia.astaff.utils.file.FileManager;

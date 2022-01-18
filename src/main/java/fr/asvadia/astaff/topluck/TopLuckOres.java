@@ -1,4 +1,4 @@
-package fr.asvadia.astaff.utils;
+package fr.asvadia.astaff.topluck;
 
 import org.bukkit.Material;
 

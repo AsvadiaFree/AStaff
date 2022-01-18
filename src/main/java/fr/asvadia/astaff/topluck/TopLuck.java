@@ -1,8 +1,8 @@
-package fr.asvadia.astaff.utils;
+package fr.asvadia.astaff.topluck;
 
 /**/
 import fr.asvadia.api.bukkit.menu.inventory.AInventoryGUI;
-import fr.asvadia.astaff.modules.PlayerViewer;
+import fr.asvadia.astaff.staff.modules.PlayerViewer;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.ItemCreator;

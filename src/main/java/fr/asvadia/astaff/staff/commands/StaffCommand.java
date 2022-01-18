@@ -1,10 +1,11 @@
-package fr.asvadia.astaff.commands;
+package fr.asvadia.astaff.staff.commands;
 
 import fr.asvadia.astaff.Main;
-import fr.asvadia.astaff.modules.Freeze;
-import fr.asvadia.astaff.modules.PlayerViewer;
-import fr.asvadia.astaff.utils.Staff;
-import fr.asvadia.astaff.utils.WorldScanner;
+import fr.asvadia.astaff.scanner.Scanner;
+import fr.asvadia.astaff.staff.modules.Freeze;
+import fr.asvadia.astaff.staff.modules.PlayerViewer;
+import fr.asvadia.astaff.staff.Staff;
+import fr.asvadia.astaff.scanner.WorldScanner;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import org.bukkit.Bukkit;
@@ -15,6 +16,9 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StaffCommand implements CommandExecutor {
     @Override
@@ -65,10 +69,23 @@ public class StaffCommand implements CommandExecutor {
                                 p.sendMessage("§6§lStaff §f§l» §r§fVous venez de réactiver le chat !");
                         }
                         break;
-                    case "worldscanner":
-                        if (p.hasPermission("astaff.worldscanner")
-                                && args.length == 2) {
-                            WorldScanner.scan(p.getWorld(), Integer.parseInt(args[1]), Integer.parseInt(args[1]));
+
+                    case "scanner":
+                        if (args.length == 1) return false;
+
+                        Scanner.Type type = Scanner.Type.getByName(args[1]);
+                        if (type == null) return false;
+
+                        switch (type) {
+                            case WORLD -> {
+                                if (args.length == 2
+                                        || !p.hasPermission("astaff.scanner.world")) return false;
+
+                                new WorldScanner(type)
+                                        .setWorld(p.getWorld())
+                                        .setSize(Integer.parseInt(args[2]))
+                                        .asyncStart(false);
+                            }
                         }
                         break;
                 }
@@ -84,19 +101,45 @@ public class StaffCommand implements CommandExecutor {
                     break;
                 case "stop":
                     Staff.safeStop = true;
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.closeInventory();
-                        player.kickPlayer("§6§lRedemarrage §f§l» §r§fRedémarrage automatique...");
-                    }
+                    List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+                    Player[] p = new Player[1];
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            Bukkit.shutdown();
+                            p[0] = players.remove(0);
+
+                            p[0].closeInventory();
+                            p[0].kickPlayer("§6§lRedemarrage §f§l» §r§fRedémarrage automatique...");
+
+                            if (players.isEmpty()) {
+                                this.cancel();
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        Bukkit.shutdown();
+                                    }
+                                }.runTaskLater(Main.getInstance(), 200);
+                            }
                         }
-                    }.runTaskLater(Main.getInstance(), 200);
+                    }.runTaskTimer(Main.getInstance(), 0, 0);
                     break;
-                case "worldscanner":
-                    WorldScanner.scan(Bukkit.getWorld("world"), Integer.parseInt(args[1]), Integer.parseInt(args[1]));
+                case "scanner":
+                    if (args.length == 1) return false;
+
+                    Scanner.Type type = Scanner.Type.getByName(args[1]);
+                    if (type == null) return false;
+
+                    switch (type) {
+                        case WORLD -> {
+                            if (args.length == 2
+                                    || !sender.hasPermission("astaff.scanner.world")) return false;
+
+                            new WorldScanner(type)
+                                    .setWorld(Bukkit.getWorld("world"))
+                                    .setSize(Integer.parseInt(args[2]))
+                                    .asyncStart(false);
+                        }
+                    }
                     break;
             }
         }

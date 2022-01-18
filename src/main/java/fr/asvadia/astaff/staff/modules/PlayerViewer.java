@@ -1,10 +1,10 @@
-package fr.asvadia.astaff.modules;
+package fr.asvadia.astaff.staff.modules;
 
 import fr.asvadia.api.bukkit.menu.inventory.AInventoryGUI;
 import fr.asvadia.astaff.Main;
-import fr.asvadia.astaff.utils.Sanction;
-import fr.asvadia.astaff.utils.TopLuck;
-import fr.asvadia.astaff.utils.TopLuckOres;
+import fr.asvadia.astaff.sanction.Sanction;
+import fr.asvadia.astaff.topluck.TopLuck;
+import fr.asvadia.astaff.topluck.TopLuckOres;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.ItemCreator;

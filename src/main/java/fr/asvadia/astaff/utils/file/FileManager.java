@@ -38,7 +38,6 @@ public class FileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        values.put(files, YamlConfiguration.loadConfiguration(file));
     }
 
     public static void reload(Files files) {
