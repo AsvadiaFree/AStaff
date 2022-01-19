@@ -5,7 +5,9 @@ public enum Files {
     Staff("staff"),
     Lang("lang"),
     Scanner("scanner"),
-    WorldScanner("ws");
+    WorldScanner("ws"),
+    PlayerScanner("ps"),
+    EnderChestScanner("ecs");
 
     private final String name;
 

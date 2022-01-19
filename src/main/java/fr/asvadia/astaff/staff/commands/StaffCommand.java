@@ -1,14 +1,18 @@
 package fr.asvadia.astaff.staff.commands;
 
 import fr.asvadia.astaff.Main;
+import fr.asvadia.astaff.scanner.EnderChestScanner;
+import fr.asvadia.astaff.scanner.PlayerScanner;
 import fr.asvadia.astaff.scanner.Scanner;
 import fr.asvadia.astaff.staff.modules.Freeze;
 import fr.asvadia.astaff.staff.modules.PlayerViewer;
 import fr.asvadia.astaff.staff.Staff;
 import fr.asvadia.astaff.scanner.WorldScanner;
+import fr.asvadia.astaff.utils.PlayerManager;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,6 +23,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class StaffCommand implements CommandExecutor {
     @Override
@@ -39,8 +44,11 @@ public class StaffCommand implements CommandExecutor {
                             if (args.length == 2) {
                                 Player target = Bukkit.getPlayer(args[1]);
                                 if (target == null) {
-                                    p.sendMessage(lang.getString("Staff.PlayerViewer.PlayerNotFound").replaceAll("%player%", args[0]));
-                                    return false;
+                                    target = PlayerManager.loadPlayer(Bukkit.getOfflinePlayer(args[1]));
+                                    if (target == null) {
+                                        p.sendMessage(lang.getString("Staff.PlayerViewer.PlayerNotFound").replaceAll("%player%", args[0]));
+                                        return false;
+                                    }
                                 }
                                 PlayerViewer.openPlayerGui(p, target);
                             } else
@@ -70,21 +78,54 @@ public class StaffCommand implements CommandExecutor {
                         }
                         break;
 
+                    case "ec":
+                        if (p.hasPermission("astaff.ec")) {
+                            if (args.length == 2) {
+                                Player target = Bukkit.getPlayer(args[1]);
+                                if (target == null) {
+                                    target = PlayerManager.loadPlayer(Bukkit.getOfflinePlayer(args[1]));
+                                    if (target == null) {
+                                        p.sendMessage(lang.getString("Staff.PlayerViewer.PlayerNotFound").replaceAll("%player%", args[0]));
+                                        return false;
+                                    }
+                                }
+                                p.openInventory(target.getEnderChest());
+                            } else
+                                p.sendMessage(lang.getString("Staff.PlayerViewer.PlayerNotFound").replaceAll("%player%", "N/A"));
+                        }
+                        break;
+
                     case "scanner":
-                        if (args.length == 1) return false;
+                        if (p.hasPermission("astaff.scanner")) {
+                            if (args.length == 1) return false;
 
-                        Scanner.Type type = Scanner.Type.getByName(args[1]);
-                        if (type == null) return false;
+                            Scanner.Type type = Scanner.Type.getByName(args[1]);
+                            if (type == null) return false;
 
-                        switch (type) {
-                            case WORLD -> {
-                                if (args.length == 2
-                                        || !p.hasPermission("astaff.scanner.world")) return false;
+                            switch (type) {
+                                case WORLD -> {
+                                    if (args.length == 2
+                                            || !p.hasPermission("astaff.scanner.world")) return false;
 
-                                new WorldScanner(type)
-                                        .setWorld(p.getWorld())
-                                        .setSize(Integer.parseInt(args[2]))
-                                        .asyncStart(false);
+                                    new WorldScanner(type)
+                                            .setWorld(p.getWorld())
+                                            .setSize(Integer.parseInt(args[2]))
+                                            .asyncStart(false);
+                                }
+
+                                case PLAYER -> {
+                                    if (!p.hasPermission("astaff.scanner.player")) return false;
+
+                                    new PlayerScanner(type)
+                                            .asyncStart(false);
+                                }
+
+                                case ENDER_CHEST -> {
+                                    if (!p.hasPermission("astaff.scanner.enderchest")) return false;
+
+                                    new EnderChestScanner(type)
+                                            .start(false);
+                                }
                             }
                         }
                         break;
@@ -92,14 +133,15 @@ public class StaffCommand implements CommandExecutor {
             }
         } else if (sender instanceof ConsoleCommandSender) {
             switch (args[0].toLowerCase()) {
-                case "lockchat":
+                case "lockchat" -> {
                     Staff.setChatLock(!Staff.isChatLock());
                     if (Staff.isChatLock())
                         sender.sendMessage("§6§lStaff §f§l» §r§fVous venez de désactiver le chat !");
                     else
                         sender.sendMessage("§6§lStaff §f§l» §r§fVous venez de réactiver le chat !");
-                    break;
-                case "stop":
+                }
+
+                case "stop" -> {
                     Staff.safeStop = true;
                     List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
                     Player[] p = new Player[1];
@@ -122,8 +164,9 @@ public class StaffCommand implements CommandExecutor {
                             }
                         }
                     }.runTaskTimer(Main.getInstance(), 0, 0);
-                    break;
-                case "scanner":
+                }
+
+                case "scanner" -> {
                     if (args.length == 1) return false;
 
                     Scanner.Type type = Scanner.Type.getByName(args[1]);
@@ -131,16 +174,23 @@ public class StaffCommand implements CommandExecutor {
 
                     switch (type) {
                         case WORLD -> {
-                            if (args.length == 2
-                                    || !sender.hasPermission("astaff.scanner.world")) return false;
-
                             new WorldScanner(type)
-                                    .setWorld(Bukkit.getWorld("world"))
+                                    .setWorld(Objects.requireNonNull(Bukkit.getWorld("world")))
                                     .setSize(Integer.parseInt(args[2]))
                                     .asyncStart(false);
                         }
+
+                        case PLAYER -> {
+                            new PlayerScanner(type)
+                                    .asyncStart(false);
+                        }
+
+                        case ENDER_CHEST -> {
+                            new EnderChestScanner(type)
+                                    .start(false);
+                        }
                     }
-                    break;
+                }
             }
         }
         return false;

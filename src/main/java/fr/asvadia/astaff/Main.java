@@ -1,8 +1,8 @@
 package fr.asvadia.astaff;
 
-import club.minnced.discord.webhook.WebhookClient;
 import fr.asvadia.astaff.sanction.SanctionCommand;
 import fr.asvadia.astaff.scanner.Scanner;
+import fr.asvadia.astaff.scanner.EnderChestScanner;
 import fr.asvadia.astaff.staff.commands.StaffCommand;
 import fr.asvadia.astaff.staff.commands.StaffTabCompleter;
 import fr.asvadia.astaff.topluck.TopLuckCommand;
@@ -57,6 +57,8 @@ public class Main extends JavaPlugin {
                     .setWorld(Bukkit.getWorld(scanner.getString("ws.world")))
                     .asyncStart(true, scanner.getInt("ws.X"), scanner.getInt("ws.Z"));
         }
+
+        new EnderChestScanner(Scanner.Type.ENDER_CHEST).start(false);
     }
 
     public static Main getInstance() {

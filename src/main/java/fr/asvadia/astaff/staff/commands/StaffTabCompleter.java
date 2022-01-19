@@ -5,6 +5,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -24,9 +25,18 @@ public class StaffTabCompleter implements TabCompleter {
                 tab.add("freeze");
             if (sender.hasPermission("astaff.lockchat"))
                 tab.add("lockchat");
-            if (sender.hasPermission("astaff.worldscanner"))
-                tab.add("worldscanner");
+            if (sender.hasPermission("astaff.scanner"))
+                tab.add("scanner");
+            if (sender.hasPermission("astaff.ec"))
+                tab.add("ec");
             return a(args, tab);
+        } else {
+            if (args[0].equalsIgnoreCase("ec")
+                    || args[0].equalsIgnoreCase("view")) {
+                return a(args, List.of(Bukkit.getOfflinePlayers()));
+            } else if (args[0].equalsIgnoreCase("scanner")) {
+                return a(args, "world", "player", "enderchest");
+            }
         }
         return null;
     }

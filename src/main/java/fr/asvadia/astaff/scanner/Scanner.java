@@ -16,7 +16,7 @@ public abstract class Scanner extends BukkitRunnable {
     private final Type type;
     private Thread thread;
 
-    Scanner(Type type) {
+    protected Scanner(Type type) {
         this.type = type;
     }
 
