@@ -54,11 +54,11 @@ public class XRay extends Module {
                 @Override
                 public void run() {
                     if (chunkLoaded.containsKey(player)) {
-                        for (int x = 16; x >= -16; x-=16) {
-                            for (int z = 16; z >= -16; z-=16) {
+                        for (int x = 16; x >= -16; x -= 16) {
+                            for (int z = 16; z >= -16; z -= 16) {
                                 Chunk chunk = player.getLocation().add(x, 0, z).getChunk();
                                 if (chunkLoaded.containsKey(player)
-                                        && !chunkLoaded.get(player).contains(chunk))  {
+                                        && !chunkLoaded.get(player).contains(chunk)) {
                                     chunkLoaded.get(player).add(chunk);
                                     for (int X = 0; X < 16; X++) {
                                         for (int Z = 0; Z < 16; Z++) {
@@ -66,7 +66,7 @@ public class XRay extends Module {
                                             Block block;
                                             List<Packet> packets = new ArrayList<>();
                                             while (chunk.getBlock(X, y, Z).getType() != Material.AIR) {
-                                                block = chunk.getBlock(X,y,Z);
+                                                block = chunk.getBlock(X, y, Z);
                                                 BlockPosition blockPosition = new BlockPosition(block.getLocation().getBlockX(), block.getLocation().getBlockY(), block.getLocation().getBlockZ());
                                                 if (!blocks.contains(chunk.getBlock(X, y, Z).getType()))
                                                     packets.add(new PacketPlayOutBlockChange(blockPosition, ((CraftWorld) chunk.getWorld()).getHandle().getType(base)));

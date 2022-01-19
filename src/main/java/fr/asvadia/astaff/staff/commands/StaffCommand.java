@@ -4,15 +4,14 @@ import fr.asvadia.astaff.Main;
 import fr.asvadia.astaff.scanner.EnderChestScanner;
 import fr.asvadia.astaff.scanner.PlayerScanner;
 import fr.asvadia.astaff.scanner.Scanner;
+import fr.asvadia.astaff.scanner.WorldScanner;
+import fr.asvadia.astaff.staff.Staff;
 import fr.asvadia.astaff.staff.modules.Freeze;
 import fr.asvadia.astaff.staff.modules.PlayerViewer;
-import fr.asvadia.astaff.staff.Staff;
-import fr.asvadia.astaff.scanner.WorldScanner;
 import fr.asvadia.astaff.utils.PlayerManager;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -69,7 +68,7 @@ public class StaffCommand implements CommandExecutor {
                         }
                         break;
                     case "lockchat":
-                        if (p.hasPermission("astaff.lockchat")){
+                        if (p.hasPermission("astaff.lockchat")) {
                             Staff.setChatLock(!Staff.isChatLock());
                             if (Staff.isChatLock())
                                 p.sendMessage("§6§lStaff §f§l» §r§fVous venez de désactiver le chat !");

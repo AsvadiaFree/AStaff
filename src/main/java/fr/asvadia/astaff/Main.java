@@ -1,17 +1,16 @@
 package fr.asvadia.astaff;
 
 import fr.asvadia.astaff.sanction.SanctionCommand;
-import fr.asvadia.astaff.scanner.Scanner;
 import fr.asvadia.astaff.scanner.EnderChestScanner;
+import fr.asvadia.astaff.scanner.Scanner;
+import fr.asvadia.astaff.scanner.WorldScanner;
 import fr.asvadia.astaff.staff.Staff;
+import fr.asvadia.astaff.staff.StaffListeners;
 import fr.asvadia.astaff.staff.commands.StaffCommand;
 import fr.asvadia.astaff.staff.commands.StaffTabCompleter;
 import fr.asvadia.astaff.topluck.TopLuckCommand;
-import fr.asvadia.astaff.staff.StaffListeners;
 import fr.asvadia.astaff.topluck.TopLuckListeners;
 import fr.asvadia.astaff.topluck.TopLuckWebHook;
-import fr.asvadia.astaff.scanner.WorldScanner;
-import fr.asvadia.astaff.utils.PlayerManager;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.SimpleItem;
@@ -23,6 +22,10 @@ import java.io.IOException;
 
 public class Main extends JavaPlugin {
     private static Main instance;
+
+    public static Main getInstance() {
+        return instance;
+    }
 
     @Override
     public void onLoad() {
@@ -62,9 +65,5 @@ public class Main extends JavaPlugin {
         }
 
         new EnderChestScanner(Scanner.Type.ENDER_CHEST).start(false);
-    }
-
-    public static Main getInstance() {
-        return instance;
     }
 }

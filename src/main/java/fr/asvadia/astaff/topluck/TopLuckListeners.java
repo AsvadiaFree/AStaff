@@ -32,11 +32,11 @@ public class TopLuckListeners implements Listener {
         TopLuck.putIfAbsent(event.getPlayer());
 
         TopLuck.playerOreCount.get(TopLuckOres.ALL).put(event.getPlayer().getUniqueId(),
-                TopLuck.playerOreCount.get(TopLuckOres.ALL).get(event.getPlayer().getUniqueId())+1);
+                TopLuck.playerOreCount.get(TopLuckOres.ALL).get(event.getPlayer().getUniqueId()) + 1);
 
         TopLuckOres topLuckOres = getByOre(event.getBlock().getType());
         if (topLuckOres != null)
             TopLuck.playerOreCount.get(topLuckOres).put(event.getPlayer().getUniqueId(),
-                    TopLuck.playerOreCount.get(topLuckOres).get(event.getPlayer().getUniqueId())+1);
+                    TopLuck.playerOreCount.get(topLuckOres).get(event.getPlayer().getUniqueId()) + 1);
     }
 }

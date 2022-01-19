@@ -4,9 +4,9 @@ import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookEmbed;
 import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import fr.asvadia.astaff.Main;
+import fr.asvadia.astaff.staff.Staff;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
-import fr.asvadia.astaff.staff.Staff;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -41,7 +41,7 @@ public class TopLuckWebHook extends BukkitRunnable {
                 .setAuthor(new WebhookEmbed.EmbedAuthor("TopLuck", "https://asvadia.eu/storage/img/logo.png", "https://asvadia.eu/"));
 
         for (int i = 0; i < 5; i++) {
-            String name = i+1 + ". ";
+            String name = i + 1 + ". ";
             StringBuilder value = new StringBuilder();
             Player target = null;
             if (players.size() > i)

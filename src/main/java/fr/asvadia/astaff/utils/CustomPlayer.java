@@ -31,9 +31,9 @@ public class CustomPlayer extends CraftPlayer {
             NBTTagCompound playerData = player.save(new NBTTagCompound());
             setExtraData(playerData);
             if (!isOnline()) {
-                NBTTagCompound oldData = worldNBTStorage.load((EntityHuman)player);
+                NBTTagCompound oldData = worldNBTStorage.load(player);
                 if (oldData != null && oldData.hasKeyOfType("RootVehicle", 10))
-                    playerData.set("RootVehicle", (NBTBase)oldData.getCompound("RootVehicle"));
+                    playerData.set("RootVehicle", oldData.getCompound("RootVehicle"));
             }
             File file = File.createTempFile(player.getUniqueIDString() + "-", ".dat", worldNBTStorage.getPlayerDir());
             NBTCompressedStreamTools.a(playerData, file);

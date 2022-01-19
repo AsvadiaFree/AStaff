@@ -1,6 +1,5 @@
 package fr.asvadia.astaff.sanction;
 
-import fr.asvadia.astaff.sanction.Sanction;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import org.bukkit.Bukkit;

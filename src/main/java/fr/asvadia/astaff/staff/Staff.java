@@ -14,13 +14,12 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Staff {
     public static List<Player> staffed = new ArrayList<>();
-    private static boolean chatLock = false;
-    private static StaffModules[] staffModules = StaffModules.values();
     public static boolean safeStop = false;
+    private static boolean chatLock = false;
+    private static final StaffModules[] staffModules = StaffModules.values();
 
     public static StaffModules getByName(String name) {
         if (staffModules == null)
@@ -110,11 +109,11 @@ public class Staff {
         return chatLock;
     }
 
-    public static StaffModules[] getStaffModules() {
-        return staffModules;
-    }
-
     public static void setChatLock(boolean chatLock) {
         Staff.chatLock = chatLock;
+    }
+
+    public static StaffModules[] getStaffModules() {
+        return staffModules;
     }
 }

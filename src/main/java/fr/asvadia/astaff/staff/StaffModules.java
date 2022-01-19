@@ -1,7 +1,7 @@
 package fr.asvadia.astaff.staff;
 
-import fr.asvadia.astaff.staff.modules.*;
 import fr.asvadia.astaff.staff.modules.Module;
+import fr.asvadia.astaff.staff.modules.*;
 
 public enum StaffModules {
     VANISH("Vanish", new Vanish()),

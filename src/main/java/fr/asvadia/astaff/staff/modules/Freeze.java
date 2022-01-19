@@ -17,6 +17,23 @@ public class Freeze extends Module {
     public static final List<Player> frozen = new ArrayList<>();
     private static final List<Player> temp = new ArrayList<>();
 
+    public static void freeze(Player player, Player target) {
+        YamlConfiguration lang = FileManager.getValues().get(Files.Lang);
+        if (frozen.contains(target)) {
+            frozen.remove(target);
+
+            target.sendMessage(lang.getString("Staff.Freeze.UnfreezeByPlayer").replaceAll("%player%", player.getName()));
+            player.sendMessage(lang.getString("Staff.Freeze.PlayerUnfreeze").replaceAll("%player%", target.getName()));
+        } else {
+            frozen.add(target);
+
+            target.teleport(target.getWorld().getHighestBlockAt(target.getLocation()).getLocation().add(0.5, 1, 0.5));
+
+            target.sendMessage(lang.getString("Staff.Freeze.FreezeByPlayer").replaceAll("%player%", player.getName()));
+            player.sendMessage(lang.getString("Staff.Freeze.PlayerFreeze").replaceAll("%player%", target.getName()));
+        }
+    }
+
     @Override
     public void apply(Player player, SimpleItem item) {
 
@@ -37,24 +54,6 @@ public class Freeze extends Module {
                     }
                 }.runTaskTimer(Main.getInstance(), 0, 10);
             }
-        }
-    }
-
-
-    public static void freeze(Player player, Player target) {
-        YamlConfiguration lang = FileManager.getValues().get(Files.Lang);
-        if (frozen.contains(target)) {
-            frozen.remove(target);
-
-            target.sendMessage(lang.getString("Staff.Freeze.UnfreezeByPlayer").replaceAll("%player%", player.getName()));
-            player.sendMessage(lang.getString("Staff.Freeze.PlayerUnfreeze").replaceAll("%player%", target.getName()));
-        } else {
-            frozen.add(target);
-
-            target.teleport(target.getWorld().getHighestBlockAt(target.getLocation()).getLocation().add(0.5, 1, 0.5));
-
-            target.sendMessage(lang.getString("Staff.Freeze.FreezeByPlayer").replaceAll("%player%", player.getName()));
-            player.sendMessage(lang.getString("Staff.Freeze.PlayerFreeze").replaceAll("%player%", target.getName()));
         }
     }
 }

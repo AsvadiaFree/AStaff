@@ -1,6 +1,5 @@
 package fr.asvadia.astaff.topluck;
 
-import fr.asvadia.astaff.topluck.TopLuck;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import org.bukkit.command.Command;

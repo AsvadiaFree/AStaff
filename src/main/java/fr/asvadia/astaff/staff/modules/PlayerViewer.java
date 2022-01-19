@@ -24,30 +24,6 @@ import java.util.List;
 public class PlayerViewer extends Module {
     private static final List<Player> temp = new ArrayList<>();
 
-    @Override
-    public void apply(Player player, SimpleItem item) {
-
-    }
-
-    @Override
-    public void apply(Player player, SimpleItem item, Event event) {
-        if (event instanceof PlayerInteractEntityEvent e) {
-            if (e.getRightClicked() instanceof Player && !temp.contains((Player) e.getRightClicked())) {
-                temp.add((Player) e.getRightClicked());
-                YamlConfiguration lang = FileManager.getValues().get(Files.Lang);
-                player.sendMessage(lang.getString("Staff.PlayerViewer.InspectOf").replaceAll("%player%", e.getRightClicked().getName()));
-                openPlayerGui(player, (Player) e.getRightClicked());
-
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        temp.remove((Player) e.getRightClicked());
-                    }
-                }.runTaskTimer(Main.getInstance(), 0, 10);
-            }
-        }
-    }
-
     public static void openPlayerGui(Player inspector, Player target) {
         // Init
         TopLuck.updateTopLuck();
@@ -128,12 +104,36 @@ public class PlayerViewer extends Module {
             if (contents[i] != null)
                 inv.item(45 + i, contents[i]);
         for (int i = 0; i < 27; i++)
-            if (contents[i+9] != null)
+            if (contents[i + 9] != null)
                 inv.item(18 + i, contents[i + 9]);
         for (int i = 0; i < 4; i++)
             if (contents[i + contents.length - 5] != null)
                 inv.item(17 - i, contents[i + contents.length - 5]);
 
         inspector.openInventory(inv.build().getInventory());
+    }
+
+    @Override
+    public void apply(Player player, SimpleItem item) {
+
+    }
+
+    @Override
+    public void apply(Player player, SimpleItem item, Event event) {
+        if (event instanceof PlayerInteractEntityEvent e) {
+            if (e.getRightClicked() instanceof Player && !temp.contains((Player) e.getRightClicked())) {
+                temp.add((Player) e.getRightClicked());
+                YamlConfiguration lang = FileManager.getValues().get(Files.Lang);
+                player.sendMessage(lang.getString("Staff.PlayerViewer.InspectOf").replaceAll("%player%", e.getRightClicked().getName()));
+                openPlayerGui(player, (Player) e.getRightClicked());
+
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        temp.remove((Player) e.getRightClicked());
+                    }
+                }.runTaskTimer(Main.getInstance(), 0, 10);
+            }
+        }
     }
 }

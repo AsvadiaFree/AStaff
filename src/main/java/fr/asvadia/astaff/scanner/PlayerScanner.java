@@ -7,9 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.List;
 
 public class PlayerScanner extends Scanner {
     private final YamlConfiguration ps;

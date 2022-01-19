@@ -52,10 +52,10 @@ public class StaffListeners implements Listener {
 
     @EventHandler
     private void onDamage(EntityDamageByEntityEvent event) {
-        if(event.getDamager() instanceof Player && event.getEntity() instanceof Player)
-            if(Freeze.frozen.contains((Player)event.getDamager()) || Freeze.frozen.contains((Player)event.getEntity()))
+        if (event.getDamager() instanceof Player && event.getEntity() instanceof Player)
+            if (Freeze.frozen.contains((Player) event.getDamager()) || Freeze.frozen.contains((Player) event.getEntity()))
                 event.setCancelled(true);
-        if(event.getDamager() instanceof Fish f) {
+        if (event.getDamager() instanceof Fish f) {
             f.remove();
             event.getEntity().setVelocity(new Vector(0, 0, 0));
         }
@@ -75,14 +75,14 @@ public class StaffListeners implements Listener {
 
     @EventHandler
     private void onPickup(EntityPickupItemEvent event) {
-        if(event.getEntity() instanceof Player p
-            && Staff.staffed.contains(p))
+        if (event.getEntity() instanceof Player p
+                && Staff.staffed.contains(p))
             event.setCancelled(true);
     }
 
     @EventHandler
     private void onDrop(PlayerDropItemEvent event) {
-        if(Staff.staffed.contains(event.getPlayer()))
+        if (Staff.staffed.contains(event.getPlayer()))
             event.setCancelled(true);
     }
 
@@ -90,12 +90,12 @@ public class StaffListeners implements Listener {
     private void onDamageStaff(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player p
                 && Staff.staffed.contains(p))
-                event.setCancelled(true);
+            event.setCancelled(true);
     }
 
     @EventHandler
     private void onQuit(PlayerQuitEvent event) {
-        if(Staff.staffed.contains(event.getPlayer()))
+        if (Staff.staffed.contains(event.getPlayer()))
             Staff.changeStaff(false, event.getPlayer());
         if (Freeze.frozen.contains(event.getPlayer())) {
             Bukkit.getOnlinePlayers().forEach(player -> {

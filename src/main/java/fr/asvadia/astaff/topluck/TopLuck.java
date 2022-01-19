@@ -1,6 +1,7 @@
 package fr.asvadia.astaff.topluck;
 
 /**/
+
 import fr.asvadia.api.bukkit.menu.inventory.AInventoryGUI;
 import fr.asvadia.astaff.staff.modules.PlayerViewer;
 import fr.asvadia.astaff.utils.file.FileManager;
@@ -12,7 +13,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class TopLuck {
     public static final HashMap<UUID, Double> playerScore = new HashMap<>();
@@ -79,7 +83,7 @@ public class TopLuck {
                 if (topLuckOres.getOre() == null)
                     continue;
 
-                double score = Double.parseDouble(decimalFormat.format(((double) playerOreCount.get(topLuckOres).get(player.getUniqueId()) /  (double) playerOreCount.get(TopLuckOres.ALL).get(player.getUniqueId())) * 100.0).replaceAll(",", "."));
+                double score = Double.parseDouble(decimalFormat.format(((double) playerOreCount.get(topLuckOres).get(player.getUniqueId()) / (double) playerOreCount.get(TopLuckOres.ALL).get(player.getUniqueId())) * 100.0).replaceAll(",", "."));
                 globalScore += score;
                 playerOreScore.get(topLuckOres).put(player.getUniqueId(), score);
             }
