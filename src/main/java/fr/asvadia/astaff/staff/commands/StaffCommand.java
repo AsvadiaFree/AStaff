@@ -8,6 +8,7 @@ import fr.asvadia.astaff.scanner.WorldScanner;
 import fr.asvadia.astaff.staff.Staff;
 import fr.asvadia.astaff.staff.modules.Freeze;
 import fr.asvadia.astaff.staff.modules.PlayerViewer;
+import fr.asvadia.astaff.utils.CustomPlayer;
 import fr.asvadia.astaff.utils.PlayerManager;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
@@ -45,7 +46,7 @@ public class StaffCommand implements CommandExecutor {
                                 if (target == null) {
                                     target = PlayerManager.loadPlayer(Bukkit.getOfflinePlayer(args[1]));
                                     if (target == null) {
-                                        p.sendMessage(lang.getString("Staff.PlayerViewer.PlayerNotFound").replaceAll("%player%", args[0]));
+                                        p.sendMessage(lang.getString("Staff.PlayerViewer.PlayerNotFound").replaceAll("%player%", args[1]));
                                         return false;
                                     }
                                 }
@@ -84,10 +85,11 @@ public class StaffCommand implements CommandExecutor {
                                 if (target == null) {
                                     target = PlayerManager.loadPlayer(Bukkit.getOfflinePlayer(args[1]));
                                     if (target == null) {
-                                        p.sendMessage(lang.getString("Staff.PlayerViewer.PlayerNotFound").replaceAll("%player%", args[0]));
+                                        p.sendMessage(lang.getString("Staff.PlayerViewer.PlayerNotFound").replaceAll("%player%", args[1]));
                                         return false;
                                     }
                                 }
+                                p.sendMessage("§6§lStaff §f§l» §r§fOuverture de l'EnderChest du joueur : " + target.getName() + ((target instanceof CustomPlayer) ? " §7(Offline) §f!" : "§f!"));
                                 p.openInventory(target.getEnderChest());
                             } else
                                 p.sendMessage(lang.getString("Staff.PlayerViewer.PlayerNotFound").replaceAll("%player%", "N/A"));
@@ -106,6 +108,7 @@ public class StaffCommand implements CommandExecutor {
                                     if (args.length == 2
                                             || !p.hasPermission("astaff.scanner.world")) return false;
 
+                                    p.sendMessage("§6§lStaff Scanner §f§l» §r§Lancement du scan du §7World §f!");
                                     new WorldScanner(type)
                                             .setWorld(p.getWorld())
                                             .setSize(Integer.parseInt(args[2]))
@@ -115,6 +118,7 @@ public class StaffCommand implements CommandExecutor {
                                 case PLAYER -> {
                                     if (!p.hasPermission("astaff.scanner.player")) return false;
 
+                                    p.sendMessage("§6§lStaff Scanner §f§l» §r§Lancement du scan des §7Players §f!");
                                     new PlayerScanner(type)
                                             .asyncStart(false);
                                 }
@@ -122,6 +126,7 @@ public class StaffCommand implements CommandExecutor {
                                 case ENDER_CHEST -> {
                                     if (!p.hasPermission("astaff.scanner.enderchest")) return false;
 
+                                    p.sendMessage("§6§lStaff Scanner §f§l» §r§Lancement du scan des §7EnderChest §f!");
                                     new EnderChestScanner(type)
                                             .asyncStart(false);
                                 }

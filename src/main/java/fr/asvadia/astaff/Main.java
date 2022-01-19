@@ -63,7 +63,5 @@ public class Main extends JavaPlugin {
                     .setWorld(Bukkit.getWorld(scanner.getString("ws.world")))
                     .asyncStart(true, scanner.getInt("ws.X"), scanner.getInt("ws.Z"));
         }
-
-        new EnderChestScanner(Scanner.Type.ENDER_CHEST).start(false);
     }
 }
