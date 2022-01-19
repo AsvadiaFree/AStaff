@@ -6,6 +6,7 @@ import fr.asvadia.astaff.staff.modules.XRay;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import fr.skyfighttv.simpleitem.SimpleItem;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -39,13 +40,25 @@ public class Staff {
         return null;
     }
 
+    public static void init() {
+        YamlConfiguration staff = FileManager.getValues().get(Files.Staff);
+        if (staff.contains("players")) {
+            staff.getConfigurationSection("players").getKeys(false).forEach(s -> {
+                if (staff.getBoolean("players." + s + ".active")) {
+                    Player player = Bukkit.getPlayer(s);
+                    if (player != null)
+                        changeStaff(true, player);
+                }
+            });
+        }
+    }
+
     public static void changeStaff(boolean status, Player player) {
         YamlConfiguration staff = FileManager.getValues().get(Files.Staff);
         staff.set("players." + player.getName().toLowerCase() + ".active", status);
 
         if (status) {
             staff.set("players." + player.getName().toLowerCase() + ".oldInventory", player.getInventory().getContents());
-            FileManager.save(Files.Staff);
 
             staffed.add(player);
 
@@ -62,7 +75,8 @@ public class Staff {
                     item.setLore(config.getStringList("Staff.Stuff." + s + ".Lore"));
                     item.onClick((player1, simpleItem, event) -> {
                         StaffModules staffModule = Staff.getByName(s);
-                        if (staffModule != null)
+                        if (staffModule != null
+                                && player1.hasPermission(config.getString("Staff.Stuff." + s + ".Permission")))
                             staffModule.getModule().apply(player1, simpleItem, event);
                     });
                     if (s.equals("Vanish"))
@@ -74,14 +88,18 @@ public class Staff {
             player.getInventory().clear();
             player.getInventory().setArmorContents(new ItemStack[4]);
             player.setAllowFlight(false);
-            player.getInventory().setContents(Objects.requireNonNull(staff.getList("players." + player.getName().toLowerCase() + ".oldInventory")).toArray(new ItemStack[0]));
+            List<ItemStack> items = (List<ItemStack>) staff.getList("players." + player.getName().toLowerCase() + ".oldInventory");
+            if (items != null)
+                player.getInventory().setContents(items.toArray(new ItemStack[0]));
 
             staffed.remove(player);
             Vanish.vanished.add(player);
-            XRay.chunkLoaded.put(player, new ArrayList<>());
+            if (!XRay.chunkLoaded.containsKey(player))
+                XRay.chunkLoaded.put(player, new ArrayList<>());
             StaffModules.XRay.getModule().apply(player, null);
             StaffModules.VANISH.getModule().apply(player, null);
         }
+        FileManager.save(Files.Staff);
     }
 
     public static List<Player> getStaffed() {

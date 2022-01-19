@@ -3,10 +3,6 @@ package fr.asvadia.astaff.scanner;
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookEmbed;
 import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
-import fr.asvadia.astaff.utils.file.FileManager;
-import fr.asvadia.astaff.utils.file.Files;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.awt.*;
@@ -20,10 +16,19 @@ public abstract class Scanner extends BukkitRunnable {
         this.type = type;
     }
 
+    public static void init() {
+        try {
+            webhook = WebhookClient.withUrl("https://discord.com/api/webhooks/932796247599886336/cjCsTA8ot-7IXQIEv5Gr-CdgdaE97WR5Eoldvf5UQdhCrsilaKIfes5oYE7_cKYesaBb");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void asyncStart(boolean restart, Object... values) {
         new Thread(() -> start(restart, values))
                 .start();
     }
+
     public abstract void start(boolean restart, Object... values);
 
     public Type getType() {
@@ -34,12 +39,12 @@ public abstract class Scanner extends BukkitRunnable {
         return thread;
     }
 
-    public WebhookClient getWebhook() {
-        return webhook;
-    }
-
     public void setThread(Thread thread) {
         this.thread = thread;
+    }
+
+    public WebhookClient getWebhook() {
+        return webhook;
     }
 
     public void sendEmbed(String str, String str2) {
@@ -49,14 +54,6 @@ public abstract class Scanner extends BukkitRunnable {
                     .setColor(Color.GREEN.getRGB())
                     .addField(new WebhookEmbed.EmbedField(true, str, str2))
                     .build());
-    }
-
-    public static void init() {
-        try {
-            webhook = WebhookClient.withUrl("https://discord.com/api/webhooks/932796247599886336/cjCsTA8ot-7IXQIEv5Gr-CdgdaE97WR5Eoldvf5UQdhCrsilaKIfes5oYE7_cKYesaBb");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public enum Type {
@@ -70,15 +67,15 @@ public abstract class Scanner extends BukkitRunnable {
             this.name = name;
         }
 
-        public String getName() {
-            return name;
-        }
-
         public static Scanner.Type getByName(String name) {
             for (Type t : Type.values())
                 if (t.getName().equals(name))
                     return t;
             return null;
+        }
+
+        public String getName() {
+            return name;
         }
     }
 }

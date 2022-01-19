@@ -124,7 +124,7 @@ public class StaffCommand implements CommandExecutor {
                                     if (!p.hasPermission("astaff.scanner.enderchest")) return false;
 
                                     new EnderChestScanner(type)
-                                            .start(false);
+                                            .asyncStart(false);
                                 }
                             }
                         }
@@ -187,7 +187,7 @@ public class StaffCommand implements CommandExecutor {
 
                         case ENDER_CHEST -> {
                             new EnderChestScanner(type)
-                                    .start(false);
+                                    .asyncStart(false);
                         }
                     }
                 }

@@ -26,6 +26,11 @@ public class EnderChestScanner extends Scanner {
                 ecs.set(player.getName() + ".uuid", player.getUniqueId().toString());
                 ecs.set(player.getName() + ".inv", p.getEnderChest().getContents());
             }
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         FileManager.save(Files.EnderChestScanner);
         sendEmbed("Mise à jour de la Progression", "Le EnderChestScanner a terminé ! Retrouve toute les donnés dans le fichier ecs.yml !");

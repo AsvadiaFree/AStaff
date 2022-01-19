@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -33,8 +34,13 @@ public class StaffTabCompleter implements TabCompleter {
         } else {
             if (args[0].equalsIgnoreCase("ec")
                     || args[0].equalsIgnoreCase("view")) {
-                return a(args, List.of(Bukkit.getOfflinePlayers()));
+                List<String> names = new ArrayList<>();
+                for (OfflinePlayer player : Bukkit.getOfflinePlayers())
+                    names.add(player.getName());
+                return a(args, names);
             } else if (args[0].equalsIgnoreCase("scanner")) {
+                if (args.length >= 3)
+                    return new ArrayList<>();
                 return a(args, "world", "player", "enderchest");
             }
         }

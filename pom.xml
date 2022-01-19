@@ -72,10 +72,5 @@
             <artifactId>discord-webhooks</artifactId>
             <version>0.7.4</version>
         </dependency>
-        <dependency>
-            <groupId>Plugins</groupId>
-            <artifactId>PowerNBT</artifactId>
-            <version>1.0.1</version>
-        </dependency>
     </dependencies>
 </project>

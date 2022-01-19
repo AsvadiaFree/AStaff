@@ -1,23 +1,19 @@
 package fr.asvadia.astaff.scanner;
 
-import club.minnced.discord.webhook.WebhookClient;
 import fr.asvadia.astaff.Main;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import net.minecraft.server.MinecraftServer;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Container;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class WorldScanner extends Scanner {
     private final List<Chunk> chunks;
@@ -42,8 +38,10 @@ public class WorldScanner extends Scanner {
     }
 
     public WorldScanner setWorld(World world) {
-        this.world = world;
-        scanner.set("ws.world", world.getName());
+        if (world != null) {
+            this.world = world;
+            scanner.set("ws.world", world.getName());
+        }
         return this;
     }
 
@@ -53,6 +51,8 @@ public class WorldScanner extends Scanner {
 
     @Override
     public void start(boolean restart, Object... values) {
+        if (this.world == null)
+            return;
         final int[] a;
         if (restart)
             a = new int[]{(int) values[0], (int) values[1]};
@@ -109,13 +109,9 @@ public class WorldScanner extends Scanner {
         if (!chunks.isEmpty()) {
             for (BlockState state : chunks.remove(0).getTileEntities())
                 if (state instanceof Container c) {
-                    List<String> str = new ArrayList<>();
-                    for (ItemStack item : c.getInventory().getContents())
-                        if (item != null)
-                            str.add(item.getAmount() + "x " + item.getType().name() + " data : " + (item.hasItemMeta() ? Objects.requireNonNull(item.getItemMeta()).hasCustomModelData() ? item.getItemMeta().getCustomModelData() : 0 : 0));
-                    if (!str.isEmpty()) {
+                    if (c.getInventory().getContents().length != 0) {
                         Location loc = c.getLocation();
-                        ws.set(loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ(), str.toArray());
+                        ws.set(loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ(), c.getInventory().getContents());
                     }
                 }
         }
