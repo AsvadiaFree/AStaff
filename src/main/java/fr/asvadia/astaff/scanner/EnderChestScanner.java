@@ -23,7 +23,7 @@ public class EnderChestScanner extends Scanner {
         for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
             Player p = PlayerManager.loadPlayer(player);
             if (p != null) {
-                ecs.set(player.getName() + ".uuid", player.getUniqueId());
+                ecs.set(player.getName() + ".uuid", player.getUniqueId().toString());
                 ecs.set(player.getName() + ".inv", p.getEnderChest().getContents());
             }
         }

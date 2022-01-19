@@ -23,7 +23,7 @@ public class PlayerScanner extends Scanner {
     public void start(boolean restart, Object... values) {
         sendEmbed("Statistiques", "Nombre de players : " + Bukkit.getOfflinePlayers().length);
         for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
-            ps.set(player.getName() + ".uuid", player.getUniqueId());
+            ps.set(player.getName() + ".uuid", player.getUniqueId().toString());
             ps.set(player.getName() + ".inv", powerNBT.readOfflinePlayer(player).getList("Inventory").toArray());
         }
         FileManager.save(Files.PlayerScanner);
