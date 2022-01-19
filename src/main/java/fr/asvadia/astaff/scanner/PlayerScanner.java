@@ -23,7 +23,6 @@ public class PlayerScanner extends Scanner {
     @Override
     public void start(boolean restart, Object... values) {
         sendEmbed("Statistiques", "Nombre de players : " + Bukkit.getOfflinePlayers().length);
-        List<ItemStack> items;
         for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
             Player p = PlayerManager.loadPlayer(player);
             if (p != null) {
