@@ -4,11 +4,11 @@ import fr.asvadia.astaff.Main;
 import fr.asvadia.astaff.utils.file.FileManager;
 import fr.asvadia.astaff.utils.file.Files;
 import net.minecraft.server.MinecraftServer;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.BlockState;
-import org.bukkit.block.Chest;
 import org.bukkit.block.Container;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -20,6 +20,7 @@ public class WorldScanner extends Scanner {
     private final List<Chunk> chunks;
     private final YamlConfiguration ws;
     private final YamlConfiguration scanner;
+    private boolean start;
     private int size;
     private World world;
 
@@ -60,7 +61,7 @@ public class WorldScanner extends Scanner {
         else
             a = new int[]{-size, -size};
 
-        boolean start = true;
+        start = true;
         scanner.set("ws.start", true);
         FileManager.save(Files.Scanner);
 
@@ -69,21 +70,21 @@ public class WorldScanner extends Scanner {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    sendEmbed("Mise à jour de la Progression", "Chunk X : " + a[0] + "\nChunk Z : " + a[1]);
+                    sendEmbed("Mise à jour de la Progression", "Chunk X : " + a[0] + "\nChunk Z : " + a[1] + "\nChunks size : " + chunks.size());
                     FileManager.save(Files.WorldScanner);
 
                     scanner.set("ws.X", a[0]);
                     scanner.set("ws.Z", a[1]);
                     FileManager.save(Files.Scanner);
 
-                    if (a[1] > size)
+                    if (!start && chunks.isEmpty())
                         this.cancel();
                 }
             }.runTaskTimerAsynchronously(Main.getInstance(), 0, 600);
         }
 
         this.runTaskTimer(Main.getInstance(), 0, 0);
-        while (start) {
+        for (;;) {
             addChunk(world.getChunkAt(a[0]++, a[1]));
 
             if (a[0] > size) {
@@ -92,30 +93,32 @@ public class WorldScanner extends Scanner {
             }
 
             if (a[1] >= size) {
-                this.cancel();
                 start = false;
                 scanner.set("ws.start", false);
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        FileManager.save(Files.Scanner);
-                        FileManager.save(Files.WorldScanner);
-                    }
-                }.runTaskLaterAsynchronously(Main.getInstance(), 10);
-
-                sendEmbed("Mise à jour de la Progression", "Le WorldScanner a terminé ! Retrouve toute les donnés dans le fichier ws.yml !");
+                FileManager.save(Files.Scanner);
+                FileManager.save(Files.WorldScanner);
+                sendEmbed("Mise à jour de la Progression", "Le WorldScanner a terminé son préchargement des chunks! Retrouve toute les donnés dans le fichier ws.yml !");
+                return;
             }
         }
     }
 
     @Override
     public void run() {
-        if (!chunks.isEmpty()) {
-            for (BlockState state : chunks.remove(0).getTileEntities())
-                if (state instanceof Container c) {
-                    Location loc = c.getLocation();
-                    ws.set(loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ(), c.getInventory().getContents());
+        if (MinecraftServer.getServer().recentTps[0] > 19) {
+            if (!chunks.isEmpty()) {
+                for (BlockState state : chunks.remove(0).getTileEntities()) {
+                    if (state instanceof Container c) {
+                        Location loc = c.getLocation();
+                        ws.set(loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ(), c.getInventory().getContents());
+                    }
                 }
+            } else if (!start) {
+                this.cancel();
+                FileManager.save(Files.Scanner);
+                FileManager.save(Files.WorldScanner);
+                sendEmbed("Mise à jour de la Progression", "Le WorldScanner a terminé son check des chunks! Retrouve toute les donnés dans le fichier ws.yml !");
+            }
         }
     }
 }
