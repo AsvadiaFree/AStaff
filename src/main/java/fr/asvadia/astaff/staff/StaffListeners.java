@@ -87,6 +87,12 @@ public class StaffListeners implements Listener {
     }
 
     @EventHandler
+    private void onChangeWorld(PlayerChangedWorldEvent event) {
+        if (Staff.staffed.contains(event.getPlayer()))
+            event.getPlayer().setAllowFlight(true);
+    }
+
+    @EventHandler
     private void onDamageStaff(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player p
                 && Staff.staffed.contains(p))

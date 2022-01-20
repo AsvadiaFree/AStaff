@@ -8,6 +8,7 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
 import org.bukkit.block.Container;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -83,23 +84,26 @@ public class WorldScanner extends Scanner {
 
         this.runTaskTimer(Main.getInstance(), 0, 0);
         while (start) {
-            if (MinecraftServer.getServer().recentTps[0] > 19) {
-                addChunk(world.getChunkAt(a[0]++, a[1]));
+            addChunk(world.getChunkAt(a[0]++, a[1]));
 
-                if (a[0] > size) {
-                    a[0] = -size;
-                    a[1]++;
-                }
+            if (a[0] > size) {
+                a[0] = -size;
+                a[1]++;
+            }
 
-                if (a[1] > size) {
-                    this.cancel();
-                    start = false;
-                    scanner.set("ws.start", false);
-                    FileManager.save(Files.Scanner);
-                    FileManager.save(Files.WorldScanner);
+            if (a[1] >= size) {
+                this.cancel();
+                start = false;
+                scanner.set("ws.start", false);
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        FileManager.save(Files.Scanner);
+                        FileManager.save(Files.WorldScanner);
+                    }
+                }.runTaskLaterAsynchronously(Main.getInstance(), 10);
 
-                    sendEmbed("Mise à jour de la Progression", "Le WorldScanner a terminé ! Retrouve toute les donnés dans le fichier ws.yml !");
-                }
+                sendEmbed("Mise à jour de la Progression", "Le WorldScanner a terminé ! Retrouve toute les donnés dans le fichier ws.yml !");
             }
         }
     }
@@ -109,10 +113,8 @@ public class WorldScanner extends Scanner {
         if (!chunks.isEmpty()) {
             for (BlockState state : chunks.remove(0).getTileEntities())
                 if (state instanceof Container c) {
-                    if (c.getInventory().getContents().length != 0) {
-                        Location loc = c.getLocation();
-                        ws.set(loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ(), c.getInventory().getContents());
-                    }
+                    Location loc = c.getLocation();
+                    ws.set(loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ(), c.getInventory().getContents());
                 }
         }
     }

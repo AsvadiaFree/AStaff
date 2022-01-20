@@ -58,8 +58,10 @@ public class Staff {
 
         if (status) {
             staff.set("players." + player.getName().toLowerCase() + ".oldInventory", player.getInventory().getContents());
+            FileManager.save(Files.Staff);
 
             staffed.add(player);
+            Vanish.vanished.remove(player);
 
             player.getInventory().clear();
             player.getInventory().setArmorContents(new ItemStack[4]);
@@ -98,7 +100,6 @@ public class Staff {
             StaffModules.XRay.getModule().apply(player, null);
             StaffModules.VANISH.getModule().apply(player, null);
         }
-        FileManager.save(Files.Staff);
     }
 
     public static List<Player> getStaffed() {
